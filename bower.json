@@ -1,0 +1,25 @@
+{
+  "name": "sonatra-theme-gluon-pjax",
+  "version": "1.0.0",
+  "authors": [
+    "François Pluchino <francois.pluchino@sonatra.com>"
+  ],
+  "description": "Default theme of Sonatra with PJAX",
+  "keywords": [
+    "theme",
+    "frontend",
+    "pjax"
+  ],
+  "license": "MIT",
+  "homepage": "https://github.com/sonatra/sonatra-theme-gluon-pjax",
+  "main": [
+  ],
+  "dependencies": {
+    "sonatra-theme-gluon": "latest"
+  },
+  "ignore": [
+    "examples",
+    "doc",
+    "README.md"
+  ]
+}
