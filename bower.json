@@ -26,7 +26,8 @@
     "js/components/sonatra-gluon-sidebar-context.js",
     "js/components/sonatra-jquery-datetime-picker.js",
     "js/components/sonatra-jquery-ripple.js",
-    "js/components/sonatra-jquery-scroller.js"
+    "js/components/sonatra-jquery-scroller.js",
+    "js/components/sonatra-jquery-scroller-sticky-header.js"
   ],
   "dependencies": {
     "sonatra-theme-gluon": "latest",
