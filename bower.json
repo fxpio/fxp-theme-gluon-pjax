@@ -15,7 +15,8 @@
   "main": [
     "js/app-pjax.js",
     "js/components/bootstrap-affix.js",
-    "js/components/bootstrap-carousel.js"
+    "js/components/bootstrap-carousel.js",
+    "js/components/bootstrap-filestyle.js"
   ],
   "dependencies": {
     "sonatra-theme-gluon": "latest",
