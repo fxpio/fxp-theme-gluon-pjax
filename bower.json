@@ -17,7 +17,8 @@
     "js/components/bootstrap-affix.js",
     "js/components/bootstrap-carousel.js",
     "js/components/bootstrap-filestyle.js",
-    "js/components/bootstrap-modal.js"
+    "js/components/bootstrap-modal.js",
+    "js/components/bootstrap-scrollspy.js"
   ],
   "dependencies": {
     "sonatra-theme-gluon": "latest",
