@@ -21,7 +21,8 @@
     "js/components/bootstrap-scrollspy.js",
     "js/components/sonatra-bootstrap-nav-scroll.js",
     "js/components/sonatra-bootstrap-panel-collapse.js",
-    "js/components/sonatra-gluon-floating-label.js"
+    "js/components/sonatra-gluon-floating-label.js",
+    "js/components/sonatra-gluon-resizing-textarea.js"
   ],
   "dependencies": {
     "sonatra-theme-gluon": "latest",
