@@ -13,12 +13,13 @@
   "license": "MIT",
   "homepage": "https://github.com/sonatra/sonatra-theme-gluon-pjax",
   "main": [
+    "js/app-pjax.js"
   ],
   "dependencies": {
-    "sonatra-theme-gluon": "latest"
+    "sonatra-theme-gluon": "latest",
+    "jquery-pjax": "1.9.*"
   },
   "ignore": [
-    "examples",
     "doc",
     "README.md"
   ]
