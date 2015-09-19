@@ -30,7 +30,8 @@
     "js/components/sonatra-jquery-scroller-sticky-header.js",
     "js/components/sonatra-jquery-sidebar.js",
     "js/components/sonatra-jquery-table-pager.js",
-    "js/components/sonatra-jquery-table-pager-footable.js"
+    "js/components/sonatra-jquery-table-pager-footable.js",
+    "js/components/sonatra-jquery-table-select.js"
   ],
   "dependencies": {
     "sonatra-theme-gluon": "latest",
