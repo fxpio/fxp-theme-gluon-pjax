@@ -1,0 +1,35 @@
+//
+// App Pjax
+// --------------------------------------------------
+
+
+.spinner-container {
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    display: block;
+    text-align: center;
+    z-index: 1;
+    background-color: @body-bg;
+    opacity: 0;
+
+    &.spinner-container-open {
+        opacity: 1;
+        .transition(opacity .2s ease);
+    }
+}
+
+.spinner-wrapper {
+    display: inline-block;
+    position: absolute;
+    top: 50%;
+    margin-left: -22px;
+
+    .container,
+    .container-fluid {
+        height: 100%;
+        width: 100%;
+    }
+}
