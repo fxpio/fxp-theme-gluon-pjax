@@ -9,12 +9,14 @@
 
 /*global define*/
 /*global navigator*/
+/*global window*/
 /*global jQuery*/
 
 /**
  * @param {jQuery} $
  *
- * @typedef {object} define.amd
+ * @typedef {object}           define.amd
+ * @typedef {object|undefined} window.pjaxMainScripts
  *
  * @author François Pluchino <francois.pluchino@sonatra.com>
  */
@@ -131,11 +133,17 @@
         var self = event.data,
             destroyers = $.fn.appPjax.Constructor.API_DESTROYERS,
             size = destroyers.length,
-            i;
+            i,
+            j;
 
         for (i = 0; i < size; ++i) {
             destroyers[i](self);
         }
+
+        for (j = 0; j < self.unregisters.length; ++j) {
+            self.unregisters[j](self);
+        }
+        self.unregisters.splice(0, self.unregisters.length);
     }
 
     /**
@@ -151,11 +159,19 @@
         var self = event.data,
             registers = $.fn.appPjax.Constructor.API_REGISTERS,
             size = registers.length,
-            i;
+            i,
+            j;
 
         for (i = 0; i < size; ++i) {
             registers[i](self);
         }
+
+        self.executeMainScripts();
+
+        for (j = 0; j < self.registers.length; ++j) {
+            self.registers[j](self);
+        }
+        self.registers.splice(0, self.registers.length);
     }
 
     // APP PJAX CLASS DEFINITION
@@ -170,11 +186,13 @@
      * @this AppPjax
      */
     var AppPjax = function (element, options) {
-        this.guid       = $.guid;
-        this.options    = $.extend(true, {}, AppPjax.DEFAULTS, options);
-        this.$element   = $(element);
-        this.$container = $(this.options.containerSelector);
-        this.$spinner   = $(
+        this.guid        = $.guid;
+        this.options     = $.extend(true, {}, AppPjax.DEFAULTS, options);
+        this.registers   = [];
+        this.unregisters = [];
+        this.$element    = $(element);
+        this.$container  = $(this.options.containerSelector);
+        this.$spinner    = $(
             '<div class="spinner-container">' +
                 '<div class="' + this.$container.attr('class') + '">' +
                     '<div class="container-fluid">' +
@@ -271,6 +289,55 @@
     };
 
     /**
+     * Add register function.
+     *
+     * A register function is an register function but it's executed only one time
+     * on the before replace content event of pjax.
+     *
+     * @callback registerCallback
+     *
+     * @param {registerCallback} register The function for register pjax component.
+     *
+     * @this AppPjax
+     */
+    AppPjax.prototype.addRegister = function (register) {
+        this.registers.push(register);
+    };
+
+    /**
+     * Add unregister function.
+     *
+     * A unregister function is an destroyer function but it's executed only one time
+     * on the before replace content event of pjax.
+     *
+     * @callback unregisterCallback
+     *
+     * @param {unregisterCallback} unregister The function for unregister pjax component.
+     *
+     * @this AppPjax
+     */
+    AppPjax.prototype.addUnregister = function (unregister) {
+        this.unregisters.push(unregister);
+    };
+
+    /**
+     * Register the global unregisters defined before the init of this plugin.
+     *
+     * @this AppPjax
+     */
+    AppPjax.prototype.executeMainScripts = function () {
+        var u;
+
+        if (typeof window.pjaxMainScripts === 'object') {
+            for (u = 0; u < window.pjaxMainScripts.length; ++u) {
+                window.pjaxMainScripts[u]();
+            }
+
+            delete window.pjaxMainScripts;
+        }
+    };
+
+    /**
      * Destroy instance.
      *
      * @this AppPjax
@@ -338,5 +405,6 @@
     $(window).on('load', function () {
         var $this = $(document);
         Plugin.call($this, $this.data());
+        $this.appPjax('executeMainScripts');
     });
 }));
