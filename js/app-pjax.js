@@ -202,6 +202,10 @@
             '</div>'
         );
 
+        if (0 === $(this.options.containerSelector).length) {
+            return;
+        }
+
         this.$element.pjax(this.options.linkSelector, this.options.containerSelector, this.options.pjaxOptions);
         this.$element
             .on('click.kp.apppjax' + this.guid, '#btn-error-reload', this, onRefreshAction)
