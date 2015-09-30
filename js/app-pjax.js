@@ -34,6 +34,29 @@
     'use strict';
 
     /**
+     * Uregister the plugins.
+     *
+     * @param {AppPjax} self The app pjax instance
+     *
+     * @private
+     */
+    function unregisterPlugins(self) {
+        var destroyers = $.fn.appPjax.Constructor.API_DESTROYERS,
+            size = destroyers.length,
+            i,
+            j;
+
+        for (i = 0; i < size; ++i) {
+            destroyers[i](self);
+        }
+
+        for (j = 0; j < self.unregisters.length; ++j) {
+            self.unregisters[j](self);
+        }
+        self.unregisters.splice(0, self.unregisters.length);
+    }
+
+    /**
      * Action on click to reload page.
      *
      * @param {jQuery.Event|Event} event
@@ -44,6 +67,32 @@
      */
     function onRefreshAction(event) {
         $.pjax.reload(event.data.options.containerSelector, event.data.options.pjaxOptions);
+    }
+
+    /**
+     * Action on pjax popstate event.
+     *
+     * @param {jQuery.Event|Event} event
+     *
+     * @typedef {AppPjax} Event.data The app pjax instance
+     *
+     * @private
+     */
+    function onPopStateAction(event) {
+        unregisterPlugins(event.data);
+    }
+
+    /**
+     * Action on pjax before send event.
+     *
+     * @param {jQuery.Event|Event} event
+     *
+     * @typedef {AppPjax} Event.data The app pjax instance
+     *
+     * @private
+     */
+    function onBeforeSendAction(event) {
+        unregisterPlugins(event.data);
     }
 
     /**
@@ -121,32 +170,6 @@
     }
 
     /**
-     * Action on pjax before replace event.
-     *
-     * @param {jQuery.Event|Event} event
-     *
-     * @typedef {AppPjax} Event.data The app pjax instance
-     *
-     * @private
-     */
-    function onBeforeReplaceAction(event) {
-        var self = event.data,
-            destroyers = $.fn.appPjax.Constructor.API_DESTROYERS,
-            size = destroyers.length,
-            i,
-            j;
-
-        for (i = 0; i < size; ++i) {
-            destroyers[i](self);
-        }
-
-        for (j = 0; j < self.unregisters.length; ++j) {
-            self.unregisters[j](self);
-        }
-        self.unregisters.splice(0, self.unregisters.length);
-    }
-
-    /**
      * Action on pjax end event.
      *
      * @param {jQuery.Event|Event} event
@@ -209,10 +232,11 @@
         this.$element.pjax(this.options.linkSelector, this.options.containerSelector, this.options.pjaxOptions);
         this.$element
             .on('click.kp.apppjax' + this.guid, '#btn-error-reload', this, onRefreshAction)
+            .on('pjax:popstate.kp.apppjax' + this.guid, null, this, onPopStateAction)
+            .on('pjax:beforeSend.kp.apppjax' + this.guid, null, this, onBeforeSendAction)
             .on('pjax:send.kp.apppjax' + this.guid, null, this, onSendAction)
             .on('pjax:complete.kp.apppjax' + this.guid, null, this, onCompleteAction)
             .on('pjax:error.kp.apppjax' + this.guid, null, this, onErrorAction)
-            .on('pjax:beforeReplace.kp.apppjax' + this.guid, null, this, onBeforeReplaceAction)
             .on('pjax:end.kp.apppjax' + this.guid, null, this, onEndAction);
 
         var $metaLanguage = $('head > meta[http-equiv="Content-Language"]');
@@ -349,10 +373,11 @@
     AppPjax.prototype.destroy = function () {
         this.$element
             .off('click.kp.apppjax' + this.guid, '#btn-error-reload', onRefreshAction)
+            .off('pjax:popstate.kp.apppjax' + this.guid, onPopStateAction)
+            .off('pjax:beforeSend.kp.apppjax' + this.guid, onBeforeSendAction)
             .off('pjax:send.kp.apppjax' + this.guid, onSendAction)
             .off('pjax:complete.kp.apppjax' + this.guid, onCompleteAction)
             .off('pjax:error.kp.apppjax' + this.guid, onErrorAction)
-            .off('pjax:beforeReplace.kp.apppjax' + this.guid, onBeforeReplaceAction)
             .off('pjax:end.kp.apppjax' + this.guid, onEndAction)
             .removeData('kp.apppjax');
 
