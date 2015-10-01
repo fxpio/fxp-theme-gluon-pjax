@@ -36,4 +36,14 @@
             $.fn.resizingTextarea.call($this, $this.data());
         });
     });
+
+    // APP PJAX COMPONENT DESTROYER DEFINITION
+    // =======================================
+
+    $.fn.appPjax.Constructor.API_DESTROYERS.push(function (appPjax) {
+        $('[data-resizing-textarea]', appPjax.$container).each(function () {
+            var $this = $(this);
+            $.fn.resizingTextarea.call($this, 'destroy');
+        });
+    });
 }));
