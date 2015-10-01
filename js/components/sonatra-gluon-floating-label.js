@@ -39,4 +39,14 @@
             $.fn.floatingLabel.call($this, $this.data());
         });
     });
+
+    // APP PJAX COMPONENT DESTROYER DEFINITION
+    // =======================================
+
+    $.fn.appPjax.Constructor.API_DESTROYERS.push(function (appPjax) {
+        $('[data-floating-label]', appPjax.$container).each(function () {
+            var $this = $(this);
+            $.fn.floatingLabel.call($this, 'destroy');
+        });
+    });
 }));
