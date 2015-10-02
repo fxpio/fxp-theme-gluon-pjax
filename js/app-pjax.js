@@ -92,19 +92,6 @@
      * @private
      */
     function onBeforeSendAction(event) {
-        unregisterPlugins(event.data);
-    }
-
-    /**
-     * Action on pjax send event.
-     *
-     * @param {jQuery.Event|Event} event
-     *
-     * @typedef {AppPjax} Event.data The app pjax instance
-     *
-     * @private
-     */
-    function onSendAction(event) {
         var self = event.data;
 
         self.$spinner.removeClass('spinner-container-open');
@@ -114,6 +101,8 @@
         window.setTimeout(function () {
             self.$spinner.addClass('spinner-container-open');
         }, 1);
+
+        unregisterPlugins(self);
     }
 
     /**
@@ -234,7 +223,6 @@
             .on('click.kp.apppjax' + this.guid, '#btn-error-reload', this, onRefreshAction)
             .on('pjax:popstate.kp.apppjax' + this.guid, null, this, onPopStateAction)
             .on('pjax:beforeSend.kp.apppjax' + this.guid, null, this, onBeforeSendAction)
-            .on('pjax:send.kp.apppjax' + this.guid, null, this, onSendAction)
             .on('pjax:complete.kp.apppjax' + this.guid, null, this, onCompleteAction)
             .on('pjax:error.kp.apppjax' + this.guid, null, this, onErrorAction)
             .on('pjax:end.kp.apppjax' + this.guid, null, this, onEndAction);
@@ -375,7 +363,6 @@
             .off('click.kp.apppjax' + this.guid, '#btn-error-reload', onRefreshAction)
             .off('pjax:popstate.kp.apppjax' + this.guid, onPopStateAction)
             .off('pjax:beforeSend.kp.apppjax' + this.guid, onBeforeSendAction)
-            .off('pjax:send.kp.apppjax' + this.guid, onSendAction)
             .off('pjax:complete.kp.apppjax' + this.guid, onCompleteAction)
             .off('pjax:error.kp.apppjax' + this.guid, onErrorAction)
             .off('pjax:end.kp.apppjax' + this.guid, onEndAction)
