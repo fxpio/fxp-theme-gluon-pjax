@@ -70,6 +70,19 @@
     }
 
     /**
+     * Action on submit form.
+     *
+     * @param {jQuery.Event|Event} event
+     *
+     * @typedef {AppPjax} Event.data The app pjax instance
+     *
+     * @private
+     */
+    function onSubmitAction(event) {
+        $.pjax.submit(event, event.data.options.containerSelector);
+    }
+
+    /**
      * Action on pjax popstate event.
      *
      * @param {jQuery.Event|Event} event
@@ -174,16 +187,16 @@
             i,
             j;
 
-        for (i = 0; i < size; ++i) {
-            registers[i](self);
-        }
-
         self.executeMainScripts();
 
         for (j = 0; j < self.registers.length; ++j) {
             self.registers[j](self);
         }
         self.registers.splice(0, self.registers.length);
+
+        for (i = 0; i < size; ++i) {
+            registers[i](self);
+        }
     }
 
     // APP PJAX CLASS DEFINITION
@@ -221,6 +234,7 @@
         this.$element.pjax(this.options.linkSelector, this.options.containerSelector, this.options.pjaxOptions);
         this.$element
             .on('click.kp.apppjax' + this.guid, '#btn-error-reload', this, onRefreshAction)
+            .on('submit.kp.apppjax' + this.guid, 'form[data-pjax]', this, onSubmitAction)
             .on('pjax:popstate.kp.apppjax' + this.guid, null, this, onPopStateAction)
             .on('pjax:beforeSend.kp.apppjax' + this.guid, null, this, onBeforeSendAction)
             .on('pjax:complete.kp.apppjax' + this.guid, null, this, onCompleteAction)
@@ -361,6 +375,7 @@
     AppPjax.prototype.destroy = function () {
         this.$element
             .off('click.kp.apppjax' + this.guid, '#btn-error-reload', onRefreshAction)
+            .off('submit.kp.apppjax' + this.guid, 'form[data-pjax]', onSubmitAction)
             .off('pjax:popstate.kp.apppjax' + this.guid, onPopStateAction)
             .off('pjax:beforeSend.kp.apppjax' + this.guid, onBeforeSendAction)
             .off('pjax:complete.kp.apppjax' + this.guid, onCompleteAction)
