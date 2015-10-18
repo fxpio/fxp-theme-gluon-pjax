@@ -184,15 +184,9 @@
         var self = event.data,
             registers = $.fn.appPjax.Constructor.API_REGISTERS,
             size = registers.length,
-            i,
-            j;
+            i;
 
         self.executeMainScripts();
-
-        for (j = 0; j < self.registers.length; ++j) {
-            self.registers[j](self);
-        }
-        self.registers.splice(0, self.registers.length);
 
         for (i = 0; i < size; ++i) {
             registers[i](self);
@@ -213,7 +207,6 @@
     var AppPjax = function (element, options) {
         this.guid        = $.guid;
         this.options     = $.extend(true, {}, AppPjax.DEFAULTS, options);
-        this.registers   = [];
         this.unregisters = [];
         this.$element    = $(element);
         this.$container  = $(this.options.containerSelector);
@@ -316,22 +309,6 @@
         }
 
         return AppPjax.LANGUAGES[locale];
-    };
-
-    /**
-     * Add register function.
-     *
-     * A register function is an register function but it's executed only one time
-     * on the before replace content event of pjax.
-     *
-     * @callback registerCallback
-     *
-     * @param {registerCallback} register The function for register pjax component.
-     *
-     * @this AppPjax
-     */
-    AppPjax.prototype.addRegister = function (register) {
-        this.registers.push(register);
     };
 
     /**
