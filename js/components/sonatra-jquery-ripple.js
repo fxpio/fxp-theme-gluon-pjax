@@ -34,6 +34,13 @@
     // ======================================
 
     $.fn.appPjax.Constructor.API_REGISTERS.push(function (appPjax) {
+        // clean old ripple actions
+        $('.ripple-action', appPjax.$container).each(function () {
+            var $this = $(this);
+            $this.removeClass('ripple-action');
+            $('.ripple', $this).remove();
+        });
+
         $('[data-ripple]', appPjax.$container).each(function () {
             var $this = $(this);
             $.fn.ripple.call($this, $this.data());
