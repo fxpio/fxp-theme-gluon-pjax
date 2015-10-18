@@ -429,13 +429,4 @@
 
         return this;
     };
-
-    // APP PJAX DATA-API
-    // =================
-
-    $(window).on('load', function () {
-        var $this = $(document);
-        Plugin.call($this, $this.data());
-        $this.appPjax('executeMainScripts');
-    });
 }));
