@@ -39,4 +39,13 @@
 
 .content-before-show {
     opacity: 0;
+
+    > .navbar {
+        &.navbar-fixed-top,
+        &.navbar-fixed-bottom,
+        &.navbar-static-top,
+        &.navbar-static-bottom {
+            display: none;
+        }
+    }
 }
