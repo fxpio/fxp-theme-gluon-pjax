@@ -97,7 +97,14 @@
      * @private
      */
     function onSubmitAction(event) {
-        $.pjax.submit(event, event.data.options.containerSelector);
+        var options = {},
+            $target = $(event.target);
+
+        if (undefined !== $target.attr('data-pjax-replace')) {
+            options.replace = true;
+        }
+
+        $.pjax.submit(event, event.data.options.containerSelector, options);
     }
 
     /**
