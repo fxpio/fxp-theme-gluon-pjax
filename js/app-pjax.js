@@ -130,6 +130,7 @@
     function onCompleteAction(event) {
         var self = event.data;
 
+        self.$container.scrollTop(0);
         self.$spinner.remove();
         self.$container.removeClass('content-before-show');
     }
