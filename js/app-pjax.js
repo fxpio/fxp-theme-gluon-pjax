@@ -57,6 +57,24 @@
     }
 
     /**
+     * Action on click to link.
+     *
+     * @param {jQuery.Event|Event} event   The jquery event
+     * @param {Object}             options The pjax options
+     *
+     * @typedef {AppPjax} Event.data The app pjax instance
+     *
+     * @private
+     */
+    function onClickAction(event, options) {
+        var $target = $(event.target);
+
+        if (undefined !== $target.attr('data-pjax-replace')) {
+            options.replace = true;
+        }
+    }
+
+    /**
      * Action on click to reload page.
      *
      * @param {jQuery.Event|Event} event
@@ -229,6 +247,7 @@
         this.$element
             .on('click.kp.apppjax' + this.guid, '#btn-error-reload', this, onRefreshAction)
             .on('submit.kp.apppjax' + this.guid, 'form[data-pjax]', this, onSubmitAction)
+            .on('pjax:click.kp.apppjax' + this.guid, null, this, onClickAction)
             .on('pjax:popstate.kp.apppjax' + this.guid, null, this, onPopStateAction)
             .on('pjax:beforeSend.kp.apppjax' + this.guid, null, this, onBeforeSendAction)
             .on('pjax:complete.kp.apppjax' + this.guid, null, this, onCompleteAction)
@@ -354,6 +373,7 @@
         this.$element
             .off('click.kp.apppjax' + this.guid, '#btn-error-reload', onRefreshAction)
             .off('submit.kp.apppjax' + this.guid, 'form[data-pjax]', onSubmitAction)
+            .off('pjax:click.kp.apppjax' + this.guid, onClickAction)
             .off('pjax:popstate.kp.apppjax' + this.guid, onPopStateAction)
             .off('pjax:beforeSend.kp.apppjax' + this.guid, onBeforeSendAction)
             .off('pjax:complete.kp.apppjax' + this.guid, onCompleteAction)
