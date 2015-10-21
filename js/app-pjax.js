@@ -249,7 +249,7 @@
      */
     AppPjax.DEFAULTS = {
         locale: null,
-        linkSelector: 'a:not(.force-load)',
+        linkSelector: 'a:not([data-force-load])',
         containerSelector: '#pjax-container',
         pjaxOptions: {
             timeout: 60000
