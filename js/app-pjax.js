@@ -72,6 +72,10 @@
         if (undefined !== $target.attr('data-pjax-replace')) {
             options.replace = true;
         }
+
+        if (undefined !== $target.attr('data-pjax-push')) {
+            options.push = 'false' !== $target.attr('data-pjax-push');
+        }
     }
 
     /**
@@ -102,6 +106,10 @@
 
         if (undefined !== $target.attr('data-pjax-replace')) {
             options.replace = true;
+        }
+
+        if (undefined !== $target.attr('data-pjax-push')) {
+            options.push = 'false' !== $target.attr('data-pjax-push');
         }
 
         $.pjax.submit(event, event.data.options.containerSelector, options);
