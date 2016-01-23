@@ -60,6 +60,10 @@
             var $this = $(this),
                 affix = $this.data('bs.affix');
 
+            if (undefined === affix) {
+                return;
+            }
+
             affix.$target
                 .off('scroll.bs.affix.data-api', $.proxy(affix.checkPosition, affix))
                 .off('click.bs.affix.data-api',  $.proxy(affix.checkPositionWithEventLoop, affix));
