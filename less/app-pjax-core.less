@@ -14,10 +14,11 @@
     z-index: @zindex-navbar - 1;
     background-color: @body-bg;
     opacity: 0;
+    .transition(opacity .2s ease);
 
     &.spinner-container-open {
         opacity: 1;
-        .transition(opacity .2s ease);
+        .transition-delay(0.3s);
     }
 
     .container,
@@ -37,15 +38,10 @@
 
 }
 
+.container-main {
+    .transition(opacity .2s ease);
+}
+
 .content-before-show {
     opacity: 0;
-
-    > .navbar {
-        &.navbar-fixed-top,
-        &.navbar-fixed-bottom,
-        &.navbar-static-top,
-        &.navbar-static-bottom {
-            display: none;
-        }
-    }
 }
