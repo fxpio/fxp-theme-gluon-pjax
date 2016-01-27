@@ -30,15 +30,35 @@
 }(function ($) {
     'use strict';
 
+    /**
+     * Get the target of the modal toggle.
+     *
+     * @param {jQuery} $this The toggle of modal
+     *
+     * @return {jQuery}
+     *
+     * @private
+     */
+    function getTarget($this)
+    {
+        return $($this.attr('data-target') || (href && href.replace(/.*(?=#[^\s]+$)/, '')));// strip for ie7
+    }
+
+    // APP PJAX COMPONENT REGISTERS DEFINITION
+    // =======================================
+
+    $.fn.appPjax.Constructor.API_REGISTERS.push(function (appPjax) {
+        $('[data-toggle="modal"]', appPjax.$container).each(function () {
+            getTarget($(this)).css('display', '');
+        });
+    });
+
     // APP PJAX COMPONENT DESTROYER DEFINITION
     // =======================================
 
     $.fn.appPjax.Constructor.API_DESTROYERS.push(function (appPjax) {
         $('[data-toggle="modal"]', appPjax.$container).each(function () {
-            var $this = $(this),
-                $target = $($this.attr('data-target') || (href && href.replace(/.*(?=#[^\s]+$)/, '')));// strip for ie7
-
-            $target.modal('hide');
+            getTarget($(this)).modal('hide');
         });
     });
 }));
