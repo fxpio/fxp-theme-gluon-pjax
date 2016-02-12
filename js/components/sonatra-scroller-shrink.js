@@ -33,9 +33,9 @@
     // APP PJAX COMPONENT REGISTER DEFINITION
     // ======================================
 
-    $.fn.appPjax.Constructor.API_REGISTERS.push(function () {
+    $.fn.appPjax.Constructor.API_REGISTERS.push(function ($container) {
         if (typeof window.scrollerShrinkComponents === 'function') {
-            window.scrollerShrinkComponents();
+            window.scrollerShrinkComponents($container);
         }
     });
 }));
