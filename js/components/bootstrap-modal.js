@@ -47,8 +47,8 @@
     // APP PJAX COMPONENT REGISTERS DEFINITION
     // =======================================
 
-    $.fn.appPjax.Constructor.API_REGISTERS.push(function (appPjax) {
-        $('[data-toggle="modal"]', appPjax.$container).each(function () {
+    $.fn.appPjax.Constructor.API_REGISTERS.push(function ($container) {
+        $('[data-toggle="modal"]', $container).each(function () {
             getTarget($(this)).css('display', '');
         });
     });
@@ -56,8 +56,8 @@
     // APP PJAX COMPONENT DESTROYER DEFINITION
     // =======================================
 
-    $.fn.appPjax.Constructor.API_DESTROYERS.push(function (appPjax) {
-        $('[data-toggle="modal"]', appPjax.$container).each(function () {
+    $.fn.appPjax.Constructor.API_DESTROYERS.push(function ($container) {
+        $('[data-toggle="modal"]', $container).each(function () {
             getTarget($(this)).modal('hide');
         });
     });

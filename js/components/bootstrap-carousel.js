@@ -33,8 +33,8 @@
     // APP PJAX COMPONENT REGISTER DEFINITION
     // ======================================
 
-    $.fn.appPjax.Constructor.API_REGISTERS.push(function (appPjax) {
-        $('[data-ride="carousel"]', appPjax.$container).each(function () {
+    $.fn.appPjax.Constructor.API_REGISTERS.push(function ($container) {
+        $('[data-ride="carousel"]', $container).each(function () {
             var $this = $(this);
             $.fn.carousel.call($this, $this.data());
         });

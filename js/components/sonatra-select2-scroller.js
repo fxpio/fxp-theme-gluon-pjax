@@ -33,8 +33,8 @@
     // APP PJAX COMPONENT REGISTER DEFINITION
     // ======================================
 
-    $.fn.appPjax.Constructor.API_REGISTERS.push(function (appPjax) {
-        $('[data-select2-jquery-scroller="true"]', appPjax.$container).each(function () {
+    $.fn.appPjax.Constructor.API_REGISTERS.push(function ($container) {
+        $('[data-select2-jquery-scroller="true"]', $container).each(function () {
             var $this = $(this);
             $.fn.select2Scroller.call($this, $this.data());
         });
@@ -43,8 +43,8 @@
     // APP PJAX COMPONENT DESTROYER DEFINITION
     // =======================================
 
-    $.fn.appPjax.Constructor.API_DESTROYERS.push(function (appPjax) {
-        $('[data-select2-jquery-scroller="true"]', appPjax.$container).each(function () {
+    $.fn.appPjax.Constructor.API_DESTROYERS.push(function ($container) {
+        $('[data-select2-jquery-scroller="true"]', $container).each(function () {
             var $this = $(this);
             $.fn.select2Scroller.call($this, 'destroy');
         });

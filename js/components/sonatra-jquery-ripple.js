@@ -33,15 +33,15 @@
     // APP PJAX COMPONENT REGISTER DEFINITION
     // ======================================
 
-    $.fn.appPjax.Constructor.API_REGISTERS.push(function (appPjax) {
+    $.fn.appPjax.Constructor.API_REGISTERS.push(function ($container) {
         // clean old ripple actions
-        $('.ripple-action', appPjax.$container).each(function () {
+        $('.ripple-action', $container).each(function () {
             var $this = $(this);
             $this.removeClass('ripple-action');
             $('.ripple', $this).remove();
         });
 
-        $('[data-ripple]', appPjax.$container).each(function () {
+        $('[data-ripple]', $container).each(function () {
             var $this = $(this);
             $.fn.ripple.call($this, $this.data());
         });
@@ -50,8 +50,8 @@
     // APP PJAX COMPONENT DESTROYER DEFINITION
     // =======================================
 
-    $.fn.appPjax.Constructor.API_DESTROYERS.push(function (appPjax) {
-        $('[data-ripple]', appPjax.$container).each(function () {
+    $.fn.appPjax.Constructor.API_DESTROYERS.push(function ($container) {
+        $('[data-ripple]', $container).each(function () {
             var $this = $(this);
             $.fn.ripple.call($this, 'destroy');
         });

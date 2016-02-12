@@ -33,8 +33,8 @@
     // APP PJAX COMPONENT DESTROYER DEFINITION
     // =======================================
 
-    $.fn.appPjax.Constructor.API_DESTROYERS.push(function (appPjax) {
-        $('[data-toggle="dropdown"]', appPjax.$container).each(function () {
+    $.fn.appPjax.Constructor.API_DESTROYERS.push(function ($container) {
+        $('[data-toggle="dropdown"]', $container).each(function () {
             var $this = $(this);
 
             if (!$this.parent().hasClass('open')) {

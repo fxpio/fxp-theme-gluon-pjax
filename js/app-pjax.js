@@ -43,17 +43,18 @@
     function unregisterPlugins(self) {
         var destroyers = $.fn.appPjax.Constructor.API_DESTROYERS,
             size = destroyers.length,
+            sizeR = self.unregisters.length,
             i,
             j;
 
         for (i = 0; i < size; ++i) {
-            destroyers[i](self);
+            destroyers[i](self.$container);
         }
 
-        for (j = 0; j < self.unregisters.length; ++j) {
-            self.unregisters[j](self);
+        for (j = 0; j < sizeR; ++j) {
+            self.unregisters[j](self.$container);
         }
-        self.unregisters.splice(0, self.unregisters.length);
+        self.unregisters.splice(0, sizeR);
     }
 
     /**
@@ -223,7 +224,7 @@
         self.executeMainScripts();
 
         for (i = 0; i < size; ++i) {
-            registers[i](self);
+            registers[i](self.$container);
         }
     }
 
