@@ -261,14 +261,14 @@
 
         this.$element.pjax(this.options.linkSelector, this.options.containerSelector, this.options.pjaxOptions);
         this.$element
-            .on('click.kp.apppjax' + this.guid, '#btn-error-reload', this, onRefreshAction)
-            .on('submit.kp.apppjax' + this.guid, 'form[data-pjax]', this, onSubmitAction)
-            .on('pjax:click.kp.apppjax' + this.guid, null, this, onClickAction)
-            .on('pjax:popstate.kp.apppjax' + this.guid, null, this, onPopStateAction)
-            .on('pjax:beforeSend.kp.apppjax' + this.guid, null, this, onBeforeSendAction)
-            .on('pjax:complete.kp.apppjax' + this.guid, null, this, onCompleteAction)
-            .on('pjax:error.kp.apppjax' + this.guid, null, this, onErrorAction)
-            .on('pjax:end.kp.apppjax' + this.guid, null, this, onEndAction);
+            .on('click.st.apppjax' + this.guid, '#btn-error-reload', this, onRefreshAction)
+            .on('submit.st.apppjax' + this.guid, 'form[data-pjax]', this, onSubmitAction)
+            .on('pjax:click.st.apppjax' + this.guid, null, this, onClickAction)
+            .on('pjax:popstate.st.apppjax' + this.guid, null, this, onPopStateAction)
+            .on('pjax:beforeSend.st.apppjax' + this.guid, null, this, onBeforeSendAction)
+            .on('pjax:complete.st.apppjax' + this.guid, null, this, onCompleteAction)
+            .on('pjax:error.st.apppjax' + this.guid, null, this, onErrorAction)
+            .on('pjax:end.st.apppjax' + this.guid, null, this, onEndAction);
 
         var $metaLanguage = $('head > meta[http-equiv="Content-Language"]');
 
@@ -387,15 +387,15 @@
      */
     AppPjax.prototype.destroy = function () {
         this.$element
-            .off('click.kp.apppjax' + this.guid, '#btn-error-reload', onRefreshAction)
-            .off('submit.kp.apppjax' + this.guid, 'form[data-pjax]', onSubmitAction)
-            .off('pjax:click.kp.apppjax' + this.guid, onClickAction)
-            .off('pjax:popstate.kp.apppjax' + this.guid, onPopStateAction)
-            .off('pjax:beforeSend.kp.apppjax' + this.guid, onBeforeSendAction)
-            .off('pjax:complete.kp.apppjax' + this.guid, onCompleteAction)
-            .off('pjax:error.kp.apppjax' + this.guid, onErrorAction)
-            .off('pjax:end.kp.apppjax' + this.guid, onEndAction)
-            .removeData('kp.apppjax');
+            .off('click.st.apppjax' + this.guid, '#btn-error-reload', onRefreshAction)
+            .off('submit.st.apppjax' + this.guid, 'form[data-pjax]', onSubmitAction)
+            .off('pjax:click.st.apppjax' + this.guid, onClickAction)
+            .off('pjax:popstate.st.apppjax' + this.guid, onPopStateAction)
+            .off('pjax:beforeSend.st.apppjax' + this.guid, onBeforeSendAction)
+            .off('pjax:complete.st.apppjax' + this.guid, onCompleteAction)
+            .off('pjax:error.st.apppjax' + this.guid, onErrorAction)
+            .off('pjax:end.st.apppjax' + this.guid, onEndAction)
+            .removeData('st.apppjax');
 
         delete this.$element;
         delete this.$container;
@@ -411,7 +411,7 @@
     function Plugin(option, value) {
         return this.each(function () {
             var $this   = $(this),
-                data    = $this.data('kp.apppjax'),
+                data    = $this.data('st.apppjax'),
                 options = typeof option === 'object' && option;
 
             if (!data && option === 'destroy') {
@@ -420,7 +420,7 @@
 
             if (!data) {
                 data = new AppPjax(this, options);
-                $this.data('kp.apppjax', data);
+                $this.data('st.apppjax', data);
             }
 
             if (typeof option === 'string') {
