@@ -141,12 +141,12 @@
     function onBeforeSendAction(event) {
         var self = event.data;
 
-        self.$spinner.removeClass('spinner-container-open');
+        self.$spinner.removeClass('preloader-container-open');
         self.$container.addClass('content-before-show');
         self.$container.before(self.$spinner);
 
         window.setTimeout(function () {
-            self.$spinner.addClass('spinner-container-open');
+            self.$spinner.addClass('preloader-container-open');
         }, 1);
 
         unregisterPlugins(self);
@@ -246,7 +246,7 @@
         this.$element    = $(element);
         this.$container  = $(this.options.containerSelector);
         this.$spinner    = $(
-            '<div class="spinner-container">' +
+            '<div class="preloader-container">' +
                 '<div class="' + this.$container.attr('class') + '">' +
                     '<div class="container-fluid">' +
                         this.options.spinnerTemplate +
