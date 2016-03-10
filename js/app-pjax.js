@@ -133,21 +133,37 @@
      * Action on pjax before send event.
      *
      * @param {jQuery.Event|Event} event
+     * @param {XMLHttpRequest}     xhr
+     * @param {Object}             options
      *
      * @typedef {AppPjax} Event.data The app pjax instance
      *
      * @private
      */
-    function onBeforeSendAction(event) {
+    function onBeforeSendAction(event, xhr, options) {
         var self = event.data;
 
-        self.$spinner.removeClass('preloader-container-open');
-        self.$container.addClass('content-before-show');
-        self.$container.before(self.$spinner);
+        if (null !== self.delayOptions) {
+            self.delayRequest = false;
+            self.delayOptions = null;
+        }
 
-        window.setTimeout(function () {
-            self.$spinner.addClass('preloader-container-open');
-        }, 1);
+        if (!self.$container.hasClass('content-before-show')) {
+            self.$spinner.removeClass('preloader-container-open');
+            self.$container.addClass('content-before-show');
+            self.$container.before(self.$spinner);
+
+            window.setTimeout(function () {
+                self.$spinner.addClass('preloader-container-open');
+            }, 1);
+        }
+
+        if (self.delayRequest) {
+            self.delayOptions = options;
+            xhr.abort();
+
+            return;
+        }
 
         unregisterPlugins(self);
     }
@@ -240,12 +256,14 @@
      * @this AppPjax
      */
     var AppPjax = function (element, options) {
-        this.guid        = $.guid;
-        this.options     = $.extend(true, {}, AppPjax.DEFAULTS, options);
-        this.unregisters = [];
-        this.$element    = $(element);
-        this.$container  = $(this.options.containerSelector);
-        this.$spinner    = $(
+        this.guid           = $.guid;
+        this.options        = $.extend(true, {}, AppPjax.DEFAULTS, options);
+        this.delayRequest   = false;
+        this.delayOptions   = null;
+        this.unregisters    = [];
+        this.$element       = $(element);
+        this.$container     = $(this.options.containerSelector);
+        this.$spinner       = $(
             '<div class="preloader-container">' +
                 '<div class="' + this.$container.attr('class') + '">' +
                     '<div class="container-fluid">' +
@@ -381,6 +399,33 @@
     };
 
     /**
+     * Delay the request.
+     *
+     * @param {boolean} delay Check if the request must be delayed
+     *
+     * @this AppPjax
+     */
+    AppPjax.prototype.setDelayRequest = function (delay) {
+        this.delayRequest = typeof(delay) === "boolean" ? delay : false;
+    };
+
+    /**
+     * Send the delayed request.
+     *
+     * @this AppPjax
+     */
+    AppPjax.prototype.sendDelayedRequest = function () {
+        var options;
+
+        if (null !== this.delayOptions) {
+            options = this.delayOptions;
+            this.delayRequest = false;
+            this.delayOptions = null;
+            $.pjax(options);
+        }
+    };
+
+    /**
      * Destroy instance.
      *
      * @this AppPjax
@@ -400,6 +445,8 @@
         delete this.$element;
         delete this.$container;
         delete this.$spinner;
+        delete this.delayRequest;
+        delete this.delayOptions;
         delete this.options;
         delete this.guid;
     };
