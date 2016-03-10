@@ -34,7 +34,7 @@
     'use strict';
 
     /**
-     * Uregister the plugins.
+     * Unregister the plugins.
      *
      * @param {AppPjax} self The app pjax instance
      *
