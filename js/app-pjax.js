@@ -47,6 +47,10 @@
             i,
             j;
 
+        if (!self.canUnregister) {
+            return;
+        }
+
         for (i = 0; i < size; ++i) {
             destroyers[i](self.$container);
         }
@@ -55,6 +59,7 @@
             self.unregisters[j](self.$container);
         }
         self.unregisters.splice(0, sizeR);
+        self.canUnregister = false;
     }
 
     /**
@@ -242,6 +247,8 @@
         for (i = 0; i < size; ++i) {
             registers[i](self.$container);
         }
+
+        self.canUnregister = true;
     }
 
     // APP PJAX CLASS DEFINITION
@@ -257,6 +264,7 @@
      */
     var AppPjax = function (element, options) {
         this.guid           = $.guid;
+        this.canUnregister  = true;
         this.options        = $.extend(true, {}, AppPjax.DEFAULTS, options);
         this.delayRequest   = false;
         this.delayOptions   = null;
@@ -449,6 +457,7 @@
         delete this.delayOptions;
         delete this.options;
         delete this.guid;
+        delete this.canUnregister;
     };
 
 
