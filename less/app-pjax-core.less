@@ -35,9 +35,14 @@
 }
 
 .container-main {
-    .transition(opacity .25s ease);
+    &,
+    > div {
+        .transition(opacity 0.3s ease);
+    }
 }
 
 .content-before-show {
-    opacity: 0;
+    > div:not(.navbar) {
+        opacity: 0;
+    }
 }
