@@ -34,6 +34,89 @@
     'use strict';
 
     /**
+     * Trigger the event.
+     *
+     * @param {String}  type   The event type
+     * @param {AppPjax} self   The app pjax instance
+     * @param {*}       [data] The data
+     *
+     * @private
+     */
+    function triggerEvent(type, self, data) {
+        $.event.trigger({
+            type: 'apppjax:' + type + '.st.apppjax',
+            sidebar: self,
+            eventData: data,
+            time: new Date()
+        });
+    }
+
+    /**
+     * Get the width of native scrollbar.
+     *
+     * @returns {Number}
+     */
+    function getNativeScrollWidth() {
+        var sbDiv = document.createElement("div"),
+            size;
+        sbDiv.style.width = '100px';
+        sbDiv.style.height = '100px';
+        sbDiv.style.overflow = 'scroll';
+        sbDiv.style.position = 'absolute';
+        sbDiv.style.top = '-9999px';
+        document.body.appendChild(sbDiv);
+        size = sbDiv.offsetWidth - sbDiv.clientWidth;
+        document.body.removeChild(sbDiv);
+
+        return size;
+    }
+
+    /**
+     * Lock the scroll of body.
+     *
+     * @param {AppPjax} self The app pjax instance
+     *
+     * @private
+     */
+    function lockBodyScroll(self) {
+        var bodyPad = parseInt((self.$body.css('padding-right') || 0), 10),
+            hasScrollbar = self.$body.get(0).scrollHeight > document.documentElement.clientHeight
+                && 'hidden' !== self.$body.css('overflow-y');
+
+        if (hasScrollbar) {
+            self.originalBodyPad = document.body.style.paddingRight || '';
+            self.originalBodyOverflowY = document.body.style.overflowY || '';
+
+            self.$body.css({
+                'padding-right': (bodyPad + self.nativeScrollWidth) + 'px',
+                'overflow-y': 'hidden'
+            });
+
+            triggerEvent('lock-body-scroll', self, self.nativeScrollWidth);
+        }
+    }
+
+    /**
+     * Unlock the scroll of body.
+     *
+     * @param {AppPjax} self The app pjax instance
+     *
+     * @private
+     */
+    function unlockBodyScroll(self) {
+        if (null !== self.originalBodyPad || null !== self.originalBodyOverflowY) {
+            self.$body.css({
+                'padding-right': self.originalBodyPad,
+                'overflow-y': self.originalBodyOverflowY
+            });
+
+            self.originalBodyPad = null;
+            self.originalBodyOverflowY = null;
+            triggerEvent('unlock-body-scroll', self, self.nativeScrollWidth);
+        }
+    }
+
+    /**
      * Unregister the plugins.
      *
      * @param {AppPjax} self The app pjax instance
@@ -159,6 +242,7 @@
             self.$container.before(self.$spinner);
 
             window.setTimeout(function () {
+                lockBodyScroll(self);
                 self.$spinner.addClass('preloader-container-open');
             }, 1);
         }
@@ -188,6 +272,7 @@
         self.$container.scrollTop(0);
         self.$spinner.remove();
         self.$container.removeClass('content-before-show');
+        unlockBodyScroll(self);
     }
 
     /**
@@ -270,6 +355,7 @@
         this.delayOptions   = null;
         this.unregisters    = [];
         this.$element       = $(element);
+        this.$body          = $('body');
         this.$container     = $(this.options.containerSelector);
         this.$spinner       = $(
             '<div class="preloader-container">' +
@@ -280,6 +366,9 @@
                 '</div>' +
             '</div>'
         );
+        this.nativeScrollWidth     = getNativeScrollWidth();
+        this.originalBodyPad       = null;
+        this.originalBodyOverflowY = null;
 
         if (0 === $(this.options.containerSelector).length) {
             return;
@@ -451,6 +540,7 @@
             .removeData('st.apppjax');
 
         delete this.$element;
+        delete this.$body;
         delete this.$container;
         delete this.$spinner;
         delete this.delayRequest;
@@ -458,6 +548,9 @@
         delete this.options;
         delete this.guid;
         delete this.canUnregister;
+        delete this.nativeScrollWidth;
+        delete this.originalBodyPad;
+        delete this.originalBodyOverflowY;
     };
 
 
