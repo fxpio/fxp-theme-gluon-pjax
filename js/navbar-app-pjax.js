@@ -61,8 +61,6 @@
         this.options  = options;
         this.$element = $(element);
 
-            console.log('ici');
-
         this.$element.on('apppjax:lock-body-scroll.st.apppjax.st.navbar-app-pjax apppjax:unlock-body-scroll.st.apppjax.st.navbar-app-pjax', null, this, onLockBodyScroll);
     },
         old;
