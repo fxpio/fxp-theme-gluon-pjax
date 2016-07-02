@@ -258,6 +258,15 @@
     }
 
     /**
+     * Action on pjax before replace event.
+     *
+     * @private
+     */
+    function onBeforeReplaceAction() {
+        delete window.pjaxMainScripts;
+    }
+
+    /**
      * Action on pjax complete event.
      *
      * @param {jQuery.Event|Event} event
@@ -327,13 +336,12 @@
             size = registers.length,
             i;
 
-        self.executeMainScripts();
-
         for (i = 0; i < size; ++i) {
             registers[i](self.$container);
         }
 
         self.canUnregister = true;
+        self.executeMainScripts();
     }
 
     // APP PJAX CLASS DEFINITION
@@ -383,6 +391,7 @@
             .on('pjax:beforeSend.st.apppjax' + this.guid, null, this, onBeforeSendAction)
             .on('pjax:complete.st.apppjax' + this.guid, null, this, onCompleteAction)
             .on('pjax:error.st.apppjax' + this.guid, null, this, onErrorAction)
+            .on('pjax:beforeReplace.st.apppjax' + this.guid, null, this, onBeforeReplaceAction)
             .on('pjax:end.st.apppjax' + this.guid, null, this, onEndAction);
 
         var $metaLanguage = $('head > meta[http-equiv="Content-Language"]');
@@ -490,8 +499,6 @@
             for (u = 0; u < window.pjaxMainScripts.length; ++u) {
                 window.pjaxMainScripts[u]();
             }
-
-            delete window.pjaxMainScripts;
         }
     };
 
@@ -536,6 +543,7 @@
             .off('pjax:beforeSend.st.apppjax' + this.guid, onBeforeSendAction)
             .off('pjax:complete.st.apppjax' + this.guid, onCompleteAction)
             .off('pjax:error.st.apppjax' + this.guid, onErrorAction)
+            .off('pjax:beforeReplace.st.apppjax' + this.guid, onBeforeReplaceAction)
             .off('pjax:end.st.apppjax' + this.guid, onEndAction)
             .removeData('st.apppjax');
 
