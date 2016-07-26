@@ -146,6 +146,25 @@
     }
 
     /**
+     * Create the spinner element.
+     *
+     * @param {AppPjax} self The app pjax instance
+     *
+     * @return {jQuery}
+     */
+    function getSpinner(self) {
+        return $(
+            '<div class="preloader-container">' +
+                '<div class="' + self.$container.attr('class') + '">' +
+                    '<div class="container-fluid">' +
+                        self.options.spinnerTemplate +
+                    '</div>' +
+                '</div>' +
+            '</div>'
+        );
+    }
+
+    /**
      * Action on click to link.
      *
      * @param {jQuery.Event|Event} event   The jquery event
@@ -229,7 +248,8 @@
      * @private
      */
     function onBeforeSendAction(event, xhr, options) {
-        var self = event.data;
+        var self = event.data,
+            $spinner;
 
         if (null !== self.delayOptions) {
             self.delayRequest = false;
@@ -237,13 +257,14 @@
         }
 
         if (!self.$container.hasClass('content-before-show')) {
-            self.$spinner.removeClass('preloader-container-open');
+            $spinner = getSpinner(self);
             self.$container.addClass('content-before-show');
-            self.$container.before(self.$spinner);
+            self.$container.before($spinner);
+            self.$spinner = $spinner;
 
-            window.setTimeout(function () {
+                window.setTimeout(function () {
                 lockBodyScroll(self);
-                self.$spinner.addClass('preloader-container-open');
+                $spinner.addClass('preloader-container-open');
             }, 1);
         }
 
@@ -279,7 +300,12 @@
         var self = event.data;
 
         self.$container.scrollTop(0);
-        self.$spinner.remove();
+
+        if (self.$spinner) {
+            self.$spinner.remove();
+            self.$spinner = null;
+        }
+
         self.$container.removeClass('content-before-show');
         unlockBodyScroll(self);
     }
@@ -365,15 +391,7 @@
         this.$element       = $(element);
         this.$body          = $('body');
         this.$container     = $(this.options.containerSelector);
-        this.$spinner       = $(
-            '<div class="preloader-container">' +
-                '<div class="' + this.$container.attr('class') + '">' +
-                    '<div class="container-fluid">' +
-                        this.options.spinnerTemplate +
-                    '</div>' +
-                '</div>' +
-            '</div>'
-        );
+        this.$spinner       = null;
         this.nativeScrollWidth     = getNativeScrollWidth();
         this.originalBodyPad       = null;
         this.originalBodyOverflowY = null;
