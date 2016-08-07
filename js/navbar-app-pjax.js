@@ -43,6 +43,12 @@
 
         if (nativeScrollWidth > 0) {
             $navbars.css('margin-right', margin);
+
+            if ('' !== margin) {
+                $navbars.attr('data-navbar-modal-skip', 'true');
+            } else {
+                $navbars.removeAttr('data-navbar-modal-skip');
+            }
         }
     }
 
