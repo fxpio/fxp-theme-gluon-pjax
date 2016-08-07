@@ -80,8 +80,10 @@
      */
     function lockBodyScroll(self) {
         var bodyPad = parseInt((self.$body.css('padding-right') || 0), 10),
-            hasScrollbar = self.$body.get(0).scrollHeight > document.documentElement.clientHeight
-                && 'hidden' !== self.$body.css('overflow-y');
+            hasScrollbar = (self.$body.get(0).scrollHeight > document.documentElement.clientHeight
+                    && 'hidden' !== self.$body.css('overflow-y'))
+                || ('hidden' === self.$body.css('overflow-y')
+                    && '0px' !== self.$body.css('padding-right'));
 
         if (hasScrollbar) {
             self.originalBodyPad = document.body.style.paddingRight || '';
