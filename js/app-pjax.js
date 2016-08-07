@@ -288,17 +288,7 @@
      * @private
      */
     function onCompleteAction(event) {
-        var self = event.data;
-
-        self.$container.scrollTop(0);
-
-        if (self.$spinner) {
-            self.$spinner.remove();
-            self.$spinner = null;
-        }
-
-        self.$container.removeClass('content-before-show');
-        unlockBodyScroll(self);
+        event.data.hideLoading();
     }
 
     /**
@@ -558,6 +548,23 @@
                 $spinner.addClass('preloader-container-open');
             }, 1);
         }
+    };
+
+    /**
+     * Hide the spinner loading and show the content.
+     *
+     * @this AppPjax
+     */
+    AppPjax.prototype.hideLoading = function () {
+        this.$container.scrollTop(0);
+
+        if (this.$spinner) {
+            this.$spinner.remove();
+            this.$spinner = null;
+        }
+
+        this.$container.removeClass('content-before-show');
+        unlockBodyScroll(this);
     };
 
     /**
