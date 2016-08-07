@@ -250,25 +250,14 @@
      * @private
      */
     function onBeforeSendAction(event, xhr, options) {
-        var self = event.data,
-            $spinner;
+        var self = event.data;
 
         if (null !== self.delayOptions) {
             self.delayRequest = false;
             self.delayOptions = null;
         }
 
-        if (!self.$container.hasClass('content-before-show')) {
-            $spinner = getSpinner(self);
-            self.$container.addClass('content-before-show');
-            self.$container.before($spinner);
-            self.$spinner = $spinner;
-
-                window.setTimeout(function () {
-                lockBodyScroll(self);
-                $spinner.addClass('preloader-container-open');
-            }, 1);
-        }
+        self.showLoading();
 
         if (self.delayRequest) {
             self.delayOptions = options;
@@ -546,6 +535,28 @@
             this.delayRequest = false;
             this.delayOptions = null;
             $.pjax(options);
+        }
+    };
+
+    /**
+     * Show the spinner loading and hide the content.
+     *
+     * @this AppPjax
+     */
+    AppPjax.prototype.showLoading = function () {
+        var self = this,
+            $spinner;
+
+        if (!this.$container.hasClass('content-before-show')) {
+            $spinner = getSpinner(this);
+            this.$container.addClass('content-before-show');
+            this.$container.before($spinner);
+            this.$spinner = $spinner;
+
+            window.setTimeout(function () {
+                lockBodyScroll(self);
+                $spinner.addClass('preloader-container-open');
+            }, 1);
         }
     };
 
