@@ -126,22 +126,17 @@
      * @private
      */
     function unregisterPlugins(self) {
-        var destroyers = $.fn.appPjax.Constructor.API_DESTROYERS,
-            size = destroyers.length,
-            sizeR = self.unregisters.length,
-            i,
-            j;
+        var sizeR = self.unregisters.length,
+            i;
 
         if (!self.canUnregister) {
             return;
         }
 
-        for (i = 0; i < size; ++i) {
-            destroyers[i](self.$container);
-        }
+        self.apiUnregisters(self.$container);
 
-        for (j = 0; j < sizeR; ++j) {
-            self.unregisters[j](self.$container);
+        for (i = 0; j < sizeR; ++i) {
+            self.unregisters[i](self.$container);
         }
         self.unregisters.splice(0, sizeR);
         self.canUnregister = false;
@@ -338,15 +333,9 @@
      * @private
      */
     function onEndAction(event) {
-        var self = event.data,
-            registers = $.fn.appPjax.Constructor.API_REGISTERS,
-            size = registers.length,
-            i;
+        var self = event.data;
 
-        for (i = 0; i < size; ++i) {
-            registers[i](self.$container);
-        }
-
+        self.apiRegisters(self.$container);
         self.canUnregister = true;
         self.executeMainScripts();
     }
@@ -468,6 +457,40 @@
         }
 
         return AppPjax.LANGUAGES[locale];
+    };
+
+    /**
+     * Register the jquery api widgets.
+     *
+     * @this AppPjax
+     */
+    AppPjax.prototype.apiRegisters = function (container) {
+        var registers = $.fn.appPjax.Constructor.API_REGISTERS,
+            size = registers.length,
+            $container = $(container),
+            i;
+
+        for (i = 0; i < size; ++i) {
+            registers[i]($container);
+        }
+    };
+
+    /**
+     * Unregister the jquery api widgets.
+     *
+     * @param {string|elements|object|jQuery} container
+     *
+     * @this AppPjax
+     */
+    AppPjax.prototype.apiUnregisters = function (container) {
+        var destroyers = $.fn.appPjax.Constructor.API_DESTROYERS,
+            size = destroyers.length,
+            $container = $(container),
+            i;
+
+        for (i = 0; i < size; ++i) {
+            destroyers[i]($container);
+        }
     };
 
     /**
