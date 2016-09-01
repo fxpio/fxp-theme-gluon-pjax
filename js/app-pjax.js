@@ -135,7 +135,7 @@
 
         self.apiUnregisters(self.$container);
 
-        for (i = 0; j < sizeR; ++i) {
+        for (i = 0; i < sizeR; ++i) {
             self.unregisters[i](self.$container);
         }
         self.unregisters.splice(0, sizeR);
