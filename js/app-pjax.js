@@ -193,7 +193,7 @@
      * @private
      */
     function onRefreshAction(event) {
-        $.pjax.reload(event.data.options.containerSelector, event.data.options.pjaxOptions);
+        event.data.refresh();
     }
 
     /**
@@ -588,6 +588,15 @@
 
         this.$container.removeClass('content-before-show');
         unlockBodyScroll(this);
+    };
+
+    /**
+     * Refresh the content.
+     *
+     * @this AppPjax
+     */
+    AppPjax.prototype.refresh = function () {
+        $.pjax.reload(this.options.containerSelector, this.options.pjaxOptions);
     };
 
     /**
