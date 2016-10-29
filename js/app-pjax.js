@@ -181,6 +181,10 @@
         if (undefined !== $target.attr('data-pjax-push')) {
             options.push = 'false' !== $target.attr('data-pjax-push');
         }
+
+        if (undefined !== $target.attr('data-pjax-container')) {
+            options.container = $target.attr('data-pjax-container');
+        }
     }
 
     /**
