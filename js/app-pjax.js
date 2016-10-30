@@ -119,27 +119,103 @@
     }
 
     /**
-     * Unregister the plugins.
+     * Check or set if the container can be unregistered.
      *
-     * @param {AppPjax} self The app pjax instance
+     * @param {AppPjax}                       self      The app pjax instance
+     * @param {string|elements|object|jQuery} container The container
+     * @param {Boolean}                       [value]   The value (undefined for get value)
+     *
+     * @returns {Boolean}
      *
      * @private
      */
-    function unregisterPlugins(self) {
-        var sizeR = self.unregisters.length,
+    function canBeUnregistered(self, container, value) {
+        var $container = $(container),
+            containerId = $container.attr('id'),
+            canUnregister = self.canUnregister[containerId];
+
+        // set value
+        if (undefined !== value) {
+            if (value) {
+                delete self.canUnregister[containerId];
+            } else {
+                self.canUnregister[containerId] = value;
+            }
+
+            return value;
+        }
+
+        // get value
+        return undefined !== canUnregister
+            ? canUnregister
+            : true;
+    }
+
+    /**
+     * Get, defined or delete the unregister function.
+     *
+     * @param {AppPjax}                       self      The app pjax instance
+     * @param {string|elements|object|jQuery} container The container
+     * @param {function|boolean|undefined}    [value]   The function for unregister pjax component or false
+     *                                                  to delete unregister of container (undefined for get value)
+     * @returns {function[]|function|boolean}
+     *
+     * @private
+     */
+    function unregisterCallbacks(self, container, value) {
+        var $container = $(container),
+            containerId = $container.attr('id');
+
+        // set value
+        if (undefined !== value) {
+            if (false === value) {
+                delete self.unregisters[containerId];
+            } else {
+                if (undefined === self.unregisters[containerId]) {
+                    self.unregisters[containerId] = [];
+                }
+
+                self.unregisters[containerId].push(value);
+            }
+
+            return value;
+        }
+
+        // get value
+        return undefined !== self.unregisters[containerId]
+            ? self.unregisters[containerId]
+            : [];
+    }
+
+    /**
+     * Unregister the plugins.
+     *
+     * @param {AppPjax} self       The app pjax instance
+     * @param {jQuery}  $container The container
+     *
+     * @private
+     */
+    function unregisterPlugins(self, $container) {
+        var canUnregister = canBeUnregistered(self, $container),
+            unregisters,
+            sizeR,
             i;
 
-        if (!self.canUnregister) {
+        if (!canUnregister) {
             return;
         }
 
-        self.apiUnregisters(self.$container);
+        unregisters = unregisterCallbacks(self, $container);
+        sizeR = unregisters.length;
+
+        self.apiUnregisters($container);
 
         for (i = 0; i < sizeR; ++i) {
-            self.unregisters[i](self.$container);
+            unregisters[i]($container);
         }
-        self.unregisters.splice(0, sizeR);
-        self.canUnregister = false;
+
+        unregisterCallbacks(self, $container, false);
+        canBeUnregistered(self, $container, false);
     }
 
     /**
@@ -221,7 +297,7 @@
             options.push = 'false' !== $target.attr('data-pjax-push');
         }
 
-        $.pjax.submit(event, event.data.options.containerSelector, options);
+        $.pjax.submit(event, '#' + $(event.target).attr('id'), options);
     }
 
     /**
@@ -234,7 +310,7 @@
      * @private
      */
     function onPopStateAction(event) {
-        unregisterPlugins(event.data);
+        unregisterPlugins(event.data, $(event.target));
     }
 
     /**
@@ -265,7 +341,7 @@
             return;
         }
 
-        unregisterPlugins(self);
+        unregisterPlugins(self, $(event.target));
     }
 
     /**
@@ -337,10 +413,11 @@
      * @private
      */
     function onEndAction(event) {
-        var self = event.data;
+        var self = event.data,
+            $container = $(event.target);
 
-        self.apiRegisters(self.$container);
-        self.canUnregister = true;
+        self.apiRegisters($container);
+        canBeUnregistered(self, $container, true);
         self.executeMainScripts();
     }
 
@@ -356,16 +433,16 @@
      * @this AppPjax
      */
     var AppPjax = function (element, options) {
-        this.guid           = $.guid;
-        this.canUnregister  = true;
-        this.options        = $.extend(true, {}, AppPjax.DEFAULTS, options);
-        this.delayRequest   = false;
-        this.delayOptions   = null;
-        this.unregisters    = [];
-        this.$element       = $(element);
-        this.$body          = $('body');
-        this.$container     = $(this.options.containerSelector);
-        this.$spinner       = null;
+        this.guid                  = $.guid;
+        this.options               = $.extend(true, {}, AppPjax.DEFAULTS, options);
+        this.delayRequest          = false;
+        this.delayOptions          = null;
+        this.unregisters           = {};
+        this.canUnregister         = {};
+        this.$element              = $(element);
+        this.$body                 = $('body');
+        this.$container            = $(this.options.containerSelector);
+        this.$spinner              = null;
         this.nativeScrollWidth     = getNativeScrollWidth();
         this.originalBodyPad       = null;
         this.originalBodyOverflowY = null;
@@ -503,14 +580,15 @@
      * A unregister function is an destroyer function but it's executed only one time
      * on the before replace content event of pjax.
      *
-     * @callback unregisterCallback
-     *
-     * @param {unregisterCallback} unregister The function for unregister pjax component.
+     * @param {function}                      unregister  The function for unregister pjax component
+     * @param {string|elements|object|jQuery} [container] The container
      *
      * @this AppPjax
      */
-    AppPjax.prototype.addUnregister = function (unregister) {
-        this.unregisters.push(unregister);
+    AppPjax.prototype.addUnregister = function (unregister, container) {
+        var $container = undefined !== container ? $(container) : this.$container;
+
+        unregisterCallbacks(this, $container, unregister);
     };
 
     /**
