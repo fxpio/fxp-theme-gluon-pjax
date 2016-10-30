@@ -132,12 +132,22 @@
     function canBeUnregistered(self, container, value) {
         var $container = $(container),
             containerId = $container.attr('id'),
-            canUnregister = self.canUnregister[containerId];
+            canUnregister = self.canUnregister[containerId],
+            keyUnregisters,
+            sizeUnregisters,
+            i;
 
         // set value
         if (undefined !== value) {
             if (value) {
-                delete self.canUnregister[containerId];
+                keyUnregisters = Object.keys(self.unregisters);
+                sizeUnregisters = keyUnregisters.length;
+
+                for (i = 0; i < sizeUnregisters; ++i) {
+                    if (containerId === keyUnregisters[i] || $container.find('#' + keyUnregisters[i]).length > 0) {
+                        delete self.canUnregister[keyUnregisters[i]];
+                    }
+                }
             } else {
                 self.canUnregister[containerId] = value;
             }
@@ -164,7 +174,11 @@
      */
     function unregisterCallbacks(self, container, value) {
         var $container = $(container),
-            containerId = $container.attr('id');
+            containerId = $container.attr('id'),
+            keyUnregisters,
+            sizeUnregisters,
+            foundUnregisters,
+            i;
 
         // set value
         if (undefined !== value) {
@@ -182,9 +196,17 @@
         }
 
         // get value
-        return undefined !== self.unregisters[containerId]
-            ? self.unregisters[containerId]
-            : [];
+        keyUnregisters = Object.keys(self.unregisters);
+        sizeUnregisters = keyUnregisters.length;
+        foundUnregisters = [];
+
+        for (i = 0; i < sizeUnregisters; ++i) {
+            if (containerId === keyUnregisters[i] || $container.find('#' + keyUnregisters[i]).length > 0) {
+                foundUnregisters = foundUnregisters.concat(self.unregisters[keyUnregisters[i]]);
+            }
+        }
+
+        return foundUnregisters;
     }
 
     /**
