@@ -309,7 +309,10 @@
      */
     function onSubmitAction(event) {
         var options = {},
-            $target = $(event.target);
+            $target = $(event.target),
+            id = undefined  !== $target.attr('id')
+                ? '#' + $target.attr('id')
+            : event.data.options.containerSelector;
 
         if (undefined !== $target.attr('data-pjax-replace')) {
             options.replace = true;
@@ -319,7 +322,7 @@
             options.push = 'false' !== $target.attr('data-pjax-push');
         }
 
-        $.pjax.submit(event, '#' + $(event.target).attr('id'), options);
+        $.pjax.submit(event, id, options);
     }
 
     /**
