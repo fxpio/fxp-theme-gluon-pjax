@@ -156,7 +156,7 @@
         }
 
         // get value
-        return undefined !== canUnregister
+        return undefined !== canUnregister && containerId !== self.$container.attr('id')
             ? canUnregister
             : true;
     }
