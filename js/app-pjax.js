@@ -119,86 +119,22 @@
     }
 
     /**
-     * Check or set if the container can be unregistered.
+     * Get the unregister functions of container.
      *
      * @param {AppPjax}                       self      The app pjax instance
      * @param {string|elements|object|jQuery} container The container
-     * @param {Boolean}                       [value]   The value (undefined for get value)
-     *
-     * @returns {Boolean}
-     *
-     * @private
-     */
-    function canBeUnregistered(self, container, value) {
-        var $container = $(container),
-            containerId = $container.attr('id'),
-            canUnregister = self.canUnregister[containerId],
-            keyUnregisters,
-            sizeUnregisters,
-            i;
 
-        // set value
-        if (undefined !== value) {
-            if (value) {
-                keyUnregisters = Object.keys(self.unregisters);
-                sizeUnregisters = keyUnregisters.length;
-
-                for (i = 0; i < sizeUnregisters; ++i) {
-                    if (containerId === keyUnregisters[i] || $container.find('#' + keyUnregisters[i]).length > 0) {
-                        delete self.canUnregister[keyUnregisters[i]];
-                    }
-                }
-            } else {
-                self.canUnregister[containerId] = value;
-            }
-
-            return value;
-        }
-
-        // get value
-        return undefined !== canUnregister && containerId !== self.$container.attr('id')
-            ? canUnregister
-            : true;
-    }
-
-    /**
-     * Get, defined or delete the unregister function.
-     *
-     * @param {AppPjax}                       self      The app pjax instance
-     * @param {string|elements|object|jQuery} container The container
-     * @param {function|boolean|undefined}    [value]   The function for unregister pjax component or false
-     *                                                  to delete unregister of container (undefined for get value)
-     * @returns {function[]|function|boolean}
+     * @returns {function[]}
      *
      * @private
      */
-    function unregisterCallbacks(self, container, value) {
+    function getUnregisterFunctions(self, container) {
         var $container = $(container),
             containerId = $container.attr('id'),
-            keyUnregisters,
-            sizeUnregisters,
-            foundUnregisters,
+            keyUnregisters = Object.keys(self.unregisters),
+            sizeUnregisters = keyUnregisters.length,
+            foundUnregisters = [],
             i;
-
-        // set value
-        if (undefined !== value) {
-            if (false === value) {
-                delete self.unregisters[containerId];
-            } else {
-                if (undefined === self.unregisters[containerId]) {
-                    self.unregisters[containerId] = [];
-                }
-
-                self.unregisters[containerId].push(value);
-            }
-
-            return value;
-        }
-
-        // get value
-        keyUnregisters = Object.keys(self.unregisters);
-        sizeUnregisters = keyUnregisters.length;
-        foundUnregisters = [];
 
         for (i = 0; i < sizeUnregisters; ++i) {
             if (containerId === keyUnregisters[i] || $container.find('#' + keyUnregisters[i]).length > 0) {
@@ -218,26 +154,15 @@
      * @private
      */
     function unregisterPlugins(self, $container) {
-        var canUnregister = canBeUnregistered(self, $container),
-            unregisters,
-            sizeR,
+        var unregisterFunctions = getUnregisterFunctions(self, $container),
+            sizeUnregisterFunctions = unregisterFunctions.length,
             i;
-
-        if (!canUnregister) {
-            return;
-        }
-
-        unregisters = unregisterCallbacks(self, $container);
-        sizeR = unregisters.length;
 
         self.apiUnregisters($container);
 
-        for (i = 0; i < sizeR; ++i) {
-            unregisters[i]($container);
+        for (i = 0; i < sizeUnregisterFunctions; ++i) {
+            unregisterFunctions[i]($container);
         }
-
-        unregisterCallbacks(self, $container, false);
-        canBeUnregistered(self, $container, false);
     }
 
     /**
@@ -335,7 +260,10 @@
      * @private
      */
     function onPopStateAction(event) {
-        unregisterPlugins(event.data, $(event.target));
+        var self = event.data,
+            $container = $(event.target);
+
+        unregisterPlugins(self, $container);
     }
 
     /**
@@ -442,7 +370,6 @@
             $container = $(event.target);
 
         self.apiRegisters($container);
-        canBeUnregistered(self, $container, true);
         self.executeMainScripts();
     }
 
@@ -463,7 +390,6 @@
         this.delayRequest          = false;
         this.delayOptions          = null;
         this.unregisters           = {};
-        this.canUnregister         = {};
         this.$element              = $(element);
         this.$body                 = $('body');
         this.$container            = $(this.options.containerSelector);
@@ -611,9 +537,14 @@
      * @this AppPjax
      */
     AppPjax.prototype.addUnregister = function (unregister, container) {
-        var $container = undefined !== container ? $(container) : this.$container;
+        var $container = undefined !== container ? $(container) : this.$container,
+            containerId = $container.attr('id');
 
-        unregisterCallbacks(this, $container, unregister);
+        if (undefined === this.unregisters[containerId]) {
+            this.unregisters[containerId] = [];
+        }
+
+        this.unregisters[containerId].push(unregister);
     };
 
     /**
@@ -712,6 +643,8 @@
      * @this AppPjax
      */
     AppPjax.prototype.destroy = function () {
+        unregisterPlugins(this, this.$container);
+
         this.$element
             .off('click.st.apppjax' + this.guid, '#btn-error-reload', onRefreshAction)
             .off('submit.st.apppjax' + this.guid, 'form[data-pjax]', onSubmitAction)
@@ -732,7 +665,7 @@
         delete this.delayOptions;
         delete this.options;
         delete this.guid;
-        delete this.canUnregister;
+        delete this.unregisters;
         delete this.nativeScrollWidth;
         delete this.originalBodyPad;
         delete this.originalBodyOverflowY;
