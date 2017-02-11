@@ -34,8 +34,9 @@
     // =======================================
 
     $.fn.appPjax.Constructor.API_REGISTERS.push(function ($container) {
-        $('[data-toggle="tooltip"]', $container).each(function () {
-            $(this).tooltip();
+        $('[data-toggle="tooltip"]:not([id])', $container).each(function () {
+            var $this = $(this);
+            $.fn.tooltip.call($this, $this.data());
         });
     });
 
@@ -43,8 +44,19 @@
     // =======================================
 
     $.fn.appPjax.Constructor.API_DESTROYERS.push(function ($container) {
-        $('[data-toggle="tooltip"]', $container).each(function () {
-            $(this).tooltip('destroy');
+        $('[data-toggle="tooltip"]:not([id])', $container).each(function () {
+            var $this = $(this);
+            $.fn.tooltip.call($this, 'destroy');
+        });
+    });
+
+    // TOOLTIP DATA-API
+    // ================
+
+    $(window).on('load', function () {
+        $('[data-toggle="tooltip"]:not([id])').each(function () {
+            var $this = $(this);
+            $.fn.tooltip.call($this, $this.data());
         });
     });
 }));

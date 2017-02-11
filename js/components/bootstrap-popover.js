@@ -34,8 +34,9 @@
     // =======================================
 
     $.fn.appPjax.Constructor.API_REGISTERS.push(function ($container) {
-        $('[data-toggle="popover"]', $container).each(function () {
-            $(this).popover();
+        $('[data-toggle="popover"]:not([id])', $container).each(function () {
+            var $this = $(this);
+            $.fn.popover.call($this, $this.data());
         });
     });
 
@@ -43,8 +44,19 @@
     // =======================================
 
     $.fn.appPjax.Constructor.API_DESTROYERS.push(function ($container) {
-        $('[data-toggle="popover"]', $container).each(function () {
-            $(this).popover('destroy');
+        $('[data-toggle="popover"]:not([id])', $container).each(function () {
+            var $this = $(this);
+            $.fn.popover.call($this, 'destroy');
+        });
+    });
+
+    // POPOVER DATA-API
+    // ================
+
+    $(window).on('load', function () {
+        $('[data-toggle="popover"]:not([id])').each(function () {
+            var $this = $(this);
+            $.fn.popover.call($this, $this.data());
         });
     });
 }));

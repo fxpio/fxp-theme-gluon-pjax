@@ -34,7 +34,7 @@
     // ======================================
 
     $.fn.appPjax.Constructor.API_REGISTERS.push(function ($container) {
-        $('[data-spy="scroll"]', $container).each(function () {
+        $('[data-spy="scroll"]:not([id])', $container).each(function () {
             var $this = $(this);
             $.fn.scrollspy.call($this, $this.data());
         });
@@ -44,11 +44,21 @@
     // =======================================
 
     $.fn.appPjax.Constructor.API_DESTROYERS.push(function ($container) {
-        $('[data-spy="scroll"]', $container).each(function () {
+        $('[data-spy="scroll"]:not([id])', $container).each(function () {
             var $this = $(this),
                 scrollspy = $this.data('bs.scrollspy');
 
             scrollspy.$scrollElement.off('scroll.bs.scrollspy', $.proxy(scrollspy.process, scrollspy));
+        });
+    });
+
+    // SCROLL SPY DATA-API
+    // ===================
+
+    $(window).on('load', function () {
+        $('[data-toggle="scroll"]:not([id])').each(function () {
+            var $this = $(this);
+            $.fn.scrollspy.call($this, $this.data());
         });
     });
 }));
