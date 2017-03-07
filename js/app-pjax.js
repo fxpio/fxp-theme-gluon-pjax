@@ -163,6 +163,8 @@
         for (i = 0; i < sizeUnregisterFunctions; ++i) {
             unregisterFunctions[i]($container);
         }
+
+        delete self.unregisters[$container.attr('id')];
     }
 
     /**
