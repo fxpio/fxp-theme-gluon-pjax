@@ -19,7 +19,7 @@
 
     if (typeof define === 'function' && define.amd) {
         // AMD. Register as an anonymous module.
-        define(['jquery', 'jquery-pjax', 'app-pjax', 'sonatra-theme-gluon/js/resizing-textarea'], factory);
+        define(['jquery', 'jquery-pjax', 'sonatra-theme-gluon-pjax', 'sonatra-theme-gluon/js/resizing-textarea'], factory);
     } else {
         // Browser globals
         factory(jQuery);

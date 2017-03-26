@@ -22,7 +22,7 @@
 
     if (typeof define === 'function' && define.amd) {
         // AMD. Register as an anonymous module.
-        define(['jquery', 'jquery-pjax', 'app-pjax', 'sonatra-theme-gluon/js/floating-label'], factory);
+        define(['jquery', 'jquery-pjax', 'sonatra-theme-gluon-pjax', 'sonatra-theme-gluon/js/floating-label'], factory);
     } else {
         // Browser globals
         factory(jQuery);

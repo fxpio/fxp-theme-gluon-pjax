@@ -22,7 +22,7 @@
 
     if (typeof define === 'function' && define.amd) {
         // AMD. Register as an anonymous module.
-        define(['jquery', 'jquery-pjax', 'app-pjax', 'bootstrap/js/modal', 'sonatra-theme-gluon/js/navbar-modal'], factory);
+        define(['jquery', 'jquery-pjax', 'sonatra-theme-gluon-pjax', 'bootstrap/js/modal', 'sonatra-theme-gluon/js/navbar-modal'], factory);
     } else {
         // Browser globals
         factory(jQuery);
