@@ -633,10 +633,16 @@
     /**
      * Refresh the content.
      *
+     * @param {String} [containerSelector] The container id selector
+     *
      * @this AppPjax
      */
-    AppPjax.prototype.refresh = function () {
-        $.pjax.reload(this.options.containerSelector, this.options.pjaxOptions);
+    AppPjax.prototype.refresh = function (containerSelector) {
+        if (undefined === containerSelector) {
+            containerSelector = this.options.containerSelector;
+        }
+
+        $.pjax.reload(containerSelector, this.options.pjaxOptions);
     };
 
     /**
