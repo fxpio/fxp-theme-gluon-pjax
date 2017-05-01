@@ -187,6 +187,28 @@
     }
 
     /**
+     * Inject the pjax options form target attributes.
+     *
+     * @param {jQuery}  $target The target
+     * @param {Object}  options The pjax options
+     *
+     * @private
+     */
+    function injectAttrPjaxOptions($target, options) {
+        if (undefined !== $target.attr('data-pjax-replace')) {
+            options.replace = true;
+        }
+
+        if (undefined !== $target.attr('data-pjax-push')) {
+            options.push = 'false' !== $target.attr('data-pjax-push');
+        }
+
+        if (undefined !== $target.attr('data-pjax-container')) {
+            options.container = $target.attr('data-pjax-container');
+        }
+    }
+
+    /**
      * Action on click to link.
      *
      * @param {jQuery.Event|Event} event   The jquery event
@@ -199,17 +221,7 @@
     function onClickAction(event, options) {
         var $target = $(event.target);
 
-        if (undefined !== $target.attr('data-pjax-replace')) {
-            options.replace = true;
-        }
-
-        if (undefined !== $target.attr('data-pjax-push')) {
-            options.push = 'false' !== $target.attr('data-pjax-push');
-        }
-
-        if (undefined !== $target.attr('data-pjax-container')) {
-            options.container = $target.attr('data-pjax-container');
-        }
+        injectAttrPjaxOptions($target, options);
     }
 
     /**
@@ -241,12 +253,10 @@
                 ? '#' + $target.attr('id')
             : event.data.options.containerSelector;
 
-        if (undefined !== $target.attr('data-pjax-replace')) {
-            options.replace = true;
-        }
+        injectAttrPjaxOptions($target, options);
 
-        if (undefined !== $target.attr('data-pjax-push')) {
-            options.push = 'false' !== $target.attr('data-pjax-push');
+        if (undefined !== options.container) {
+            id = options.container;
         }
 
         $.pjax.submit(event, id, options);
