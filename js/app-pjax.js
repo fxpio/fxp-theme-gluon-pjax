@@ -310,6 +310,19 @@
     }
 
     /**
+     * Action on pjax start event.
+     *
+     * @param {jQuery.Event|Event} event
+     *
+     * @typedef {AppPjax} Event.data The app pjax instance
+     *
+     * @private
+     */
+    function onStartAction(event) {
+        event.data.currentContainerId = $(event.target).attr('id');
+    }
+
+    /**
      * Action on pjax before replace event.
      *
      * @private
@@ -383,6 +396,7 @@
 
         self.apiRegisters($container);
         self.executeMainScripts();
+        self.currentContainerId = null;
     }
 
     // APP PJAX CLASS DEFINITION
@@ -409,6 +423,7 @@
         this.nativeScrollWidth     = getNativeScrollWidth();
         this.originalBodyPad       = null;
         this.originalBodyOverflowY = null;
+        this.currentContainerId    = null;
 
         if (0 === $(this.options.containerSelector).length) {
             return;
@@ -421,6 +436,7 @@
             .on('pjax:click.st.apppjax' + this.guid, null, this, onClickAction)
             .on('pjax:popstate.st.apppjax' + this.guid, null, this, onPopStateAction)
             .on('pjax:beforeSend.st.apppjax' + this.guid, null, this, onBeforeSendAction)
+            .on('pjax:start.st.apppjax' + this.guid, null, this, onStartAction)
             .on('pjax:complete.st.apppjax' + this.guid, null, this, onCompleteAction)
             .on('pjax:error.st.apppjax' + this.guid, null, this, onErrorAction)
             .on('pjax:beforeReplace.st.apppjax' + this.guid, null, this, onBeforeReplaceAction)
@@ -549,8 +565,16 @@
      * @this AppPjax
      */
     AppPjax.prototype.addUnregister = function (unregister, container) {
-        var $container = undefined !== container ? $(container) : this.$container,
-            containerId = $container.attr('id');
+        var $container = this.$container,
+            containerId;
+
+        if (undefined !== container) {
+            $container = $(container);
+        } else if (null !== this.currentContainerId) {
+            $container = $('#' + this.currentContainerId);
+        }
+
+        containerId = $container.attr('id');
 
         if (undefined === this.unregisters[containerId]) {
             this.unregisters[containerId] = [];
@@ -669,6 +693,7 @@
             .off('pjax:click.st.apppjax' + this.guid, onClickAction)
             .off('pjax:popstate.st.apppjax' + this.guid, onPopStateAction)
             .off('pjax:beforeSend.st.apppjax' + this.guid, onBeforeSendAction)
+            .off('pjax:start.st.apppjax' + this.guid, onStartAction)
             .off('pjax:complete.st.apppjax' + this.guid, onCompleteAction)
             .off('pjax:error.st.apppjax' + this.guid, onErrorAction)
             .off('pjax:beforeReplace.st.apppjax' + this.guid, onBeforeReplaceAction)
@@ -687,6 +712,7 @@
         delete this.nativeScrollWidth;
         delete this.originalBodyPad;
         delete this.originalBodyOverflowY;
+        delete this.currentContainerId;
     };
 
 
