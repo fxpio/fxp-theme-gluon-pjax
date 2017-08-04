@@ -36,6 +36,7 @@
     $.fn.appPjax.Constructor.LANGUAGES = $.extend(true, {}, $.fn.appPjax.Constructor.LANGUAGES, {
         fr: {
             reload: 'Recharger',
+            error: 'Erreur',
             error_message: 'Impossible d\'établir la connexion au serveur'
         }
     });

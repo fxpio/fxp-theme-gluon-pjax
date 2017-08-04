@@ -474,6 +474,7 @@
     AppPjax.LANGUAGES = {
         en: {
             reload: 'Reload',
+            error: 'Error',
             error_message: 'Cannot establish connection to the server'
         }
     };
