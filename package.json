@@ -16,7 +16,7 @@
     "url": "https://github.com/sonatra/sonatra-theme-gluon-pjax.git"
   },
   "bugs": {
-    "url" : "https://github.com/sonatra/sonatra-theme-gluon-pjax/issues"
+    "url": "https://github.com/sonatra/sonatra-theme-gluon-pjax/issues"
   },
   "engines": {},
   "main": "js/app-pjax.js",
