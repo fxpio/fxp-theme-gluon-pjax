@@ -21,7 +21,7 @@
   "engines": {},
   "main": "js/app-pjax.js",
   "dependencies": {
-    "@sonatra/theme-gluon": "git+ssh://git@github.com/sonatra/sonatra-theme-gluon.git#master",
-    "@sonatra/jquery-pjax": "git+ssh://git@github.com/sonatra/sonatra-jquery-pjax.git#master"
+    "@sonatra/theme-gluon": "git://github.com/sonatra/sonatra-theme-gluon.git#master",
+    "@sonatra/jquery-pjax": "git://github.com/sonatra/sonatra-jquery-pjax.git#master"
   }
 }
