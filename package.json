@@ -1,27 +1,27 @@
 {
-  "name": "@sonatra/theme-gluon-pjax",
+  "name": "@fxp/theme-gluon-pjax",
   "version": "1.0.0",
   "license": "MIT",
-  "author": "François Pluchino <francois.pluchino@sonatra.com>",
+  "author": "François Pluchino <francois.pluchino@gmail.com>",
   "contributors": [],
-  "description": "Default theme of Sonatra with PJAX",
+  "description": "Default theme of Fxp with PJAX",
   "keywords": [
     "theme",
     "frontend",
     "pjax"
   ],
-  "homepage": "https://github.com/sonatra/sonatra-theme-gluon-pjax",
+  "homepage": "https://github.com/fxpio/fxp-theme-gluon-pjax",
   "repository": {
     "type": "git",
-    "url": "https://github.com/sonatra/sonatra-theme-gluon-pjax.git"
+    "url": "https://github.com/fxpio/fxp-theme-gluon-pjax.git"
   },
   "bugs": {
-    "url": "https://github.com/sonatra/sonatra-theme-gluon-pjax/issues"
+    "url": "https://github.com/fxpio/fxp-theme-gluon-pjax/issues"
   },
   "engines": {},
   "main": "js/app-pjax.js",
   "dependencies": {
-    "@sonatra/theme-gluon": "git://github.com/sonatra/sonatra-theme-gluon.git#master",
-    "@sonatra/jquery-pjax": "git://github.com/sonatra/sonatra-jquery-pjax.git#master"
+    "@fxp/theme-gluon": "git://github.com/fxpio/fxp-theme-gluon.git#master",
+    "@fxp/jquery-pjax": "git://github.com/fxpio/fxp-jquery-pjax.git#master"
   }
 }

@@ -1,7 +1,7 @@
 /*
- * This file is part of the Sonatra package.
+ * This file is part of the Fxp package.
  *
- * (c) François Pluchino <francois.pluchino@sonatra.com>
+ * (c) François Pluchino <francois.pluchino@gmail.com>
  *
  * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
@@ -19,7 +19,7 @@
 
     if (typeof define === 'function' && define.amd) {
         // AMD. Register as an anonymous module.
-        define(['jquery', 'sonatra-theme-gluon-pjax'], factory);
+        define(['jquery', 'fxp-theme-gluon-pjax'], factory);
     } else {
         // Browser globals
         factory(jQuery);
@@ -67,7 +67,7 @@
         this.options  = options;
         this.$element = $(element);
 
-        this.$element.on('apppjax:lock-body-scroll.st.apppjax.st.navbar-app-pjax apppjax:unlock-body-scroll.st.apppjax.st.navbar-app-pjax', null, this, onLockBodyScroll);
+        this.$element.on('apppjax:lock-body-scroll.fxp.apppjax.fxp.navbar-app-pjax apppjax:unlock-body-scroll.fxp.apppjax.fxp.navbar-app-pjax', null, this, onLockBodyScroll);
     },
         old;
 
@@ -78,7 +78,7 @@
      */
     NavbarAppPjax.prototype.destroy = function () {
         this.$element
-            .off('apppjax:lock-body-scroll.st.apppjax.st.navbar-app-pjax apppjax:unlock-body-scroll.st.apppjax.st.navbar-app-pjax', null, onLockBodyScroll)
+            .off('apppjax:lock-body-scroll.fxp.apppjax.fxp.navbar-app-pjax apppjax:unlock-body-scroll.fxp.apppjax.fxp.navbar-app-pjax', null, onLockBodyScroll)
             .removeData('st.navbar-app-pjax');
 
         delete this.options;

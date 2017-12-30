@@ -1,25 +1,28 @@
 /*
- * This file is part of the Sonatra package.
+ * This file is part of the Fxp package.
  *
- * (c) François Pluchino <francois.pluchino@sonatra.com>
+ * (c) François Pluchino <francois.pluchino@gmail.com>
  *
  * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
  */
+
+/*global define*/
+/*global jQuery*/
 
 /**
  * @param {jQuery} $
  *
  * @typedef {object} define.amd
  *
- * @author François Pluchino <francois.pluchino@sonatra.com>
+ * @author François Pluchino <francois.pluchino@gmail.com>
  */
 (function (factory) {
     'use strict';
 
     if (typeof define === 'function' && define.amd) {
         // AMD. Register as an anonymous module.
-        define(['jquery', 'jquery-pjax', 'sonatra-theme-gluon-pjax', 'sonatra-theme-gluon/js/resizing-textarea'], factory);
+        define(['jquery', 'jquery-pjax', 'fxp-theme-gluon-pjax', 'bootstrap/js/dropdown', 'fxp-theme-gluon/js/fab-dropdown-position'], factory);
     } else {
         // Browser globals
         factory(jQuery);
@@ -31,9 +34,9 @@
     // ======================================
 
     $.fn.appPjax.Constructor.API_REGISTERS.push(function ($container) {
-        $('[data-resizing-textarea]', $container).each(function () {
+        $('.btn-group-fab-bottom-left, .btn-group-fab-bottom-right', $container).each(function () {
             var $this = $(this);
-            $.fn.resizingTextarea.call($this, $this.data());
+            $.fn.fabDropdownPosition.call($this, $this.data());
         });
     });
 
@@ -41,9 +44,9 @@
     // =======================================
 
     $.fn.appPjax.Constructor.API_DESTROYERS.push(function ($container) {
-        $('[data-resizing-textarea]', $container).each(function () {
+        $('.btn-group-fab-bottom-left, .btn-group-fab-bottom-right', $container).each(function () {
             var $this = $(this);
-            $.fn.resizingTextarea.call($this, 'destroy');
+            $.fn.fabDropdownPosition.call($this, 'destroy');
         });
     });
 }));

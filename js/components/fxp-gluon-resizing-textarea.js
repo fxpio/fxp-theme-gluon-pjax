@@ -1,28 +1,25 @@
 /*
- * This file is part of the Sonatra package.
+ * This file is part of the Fxp package.
  *
- * (c) François Pluchino <francois.pluchino@sonatra.com>
+ * (c) François Pluchino <francois.pluchino@gmail.com>
  *
  * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
  */
-
-/*global define*/
-/*global jQuery*/
 
 /**
  * @param {jQuery} $
  *
  * @typedef {object} define.amd
  *
- * @author François Pluchino <francois.pluchino@sonatra.com>
+ * @author François Pluchino <francois.pluchino@gmail.com>
  */
 (function (factory) {
     'use strict';
 
     if (typeof define === 'function' && define.amd) {
         // AMD. Register as an anonymous module.
-        define(['jquery', 'jquery-pjax', 'sonatra-theme-gluon-pjax', 'sonatra-jquery-datetime-picker'], factory);
+        define(['jquery', 'jquery-pjax', 'fxp-theme-gluon-pjax', 'fxp-theme-gluon/js/resizing-textarea'], factory);
     } else {
         // Browser globals
         factory(jQuery);
@@ -34,9 +31,9 @@
     // ======================================
 
     $.fn.appPjax.Constructor.API_REGISTERS.push(function ($container) {
-        $('[data-datetime-picker="true"]', $container).each(function () {
+        $('[data-resizing-textarea]', $container).each(function () {
             var $this = $(this);
-            $.fn.datetimePicker.call($this, $this.data());
+            $.fn.resizingTextarea.call($this, $this.data());
         });
     });
 
@@ -44,9 +41,9 @@
     // =======================================
 
     $.fn.appPjax.Constructor.API_DESTROYERS.push(function ($container) {
-        $('[data-datetime-picker="true"]', $container).each(function () {
+        $('[data-resizing-textarea]', $container).each(function () {
             var $this = $(this);
-            $.fn.datetimePicker.call($this, 'destroy');
+            $.fn.resizingTextarea.call($this, 'destroy');
         });
     });
 }));

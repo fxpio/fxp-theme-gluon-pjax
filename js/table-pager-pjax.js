@@ -1,7 +1,7 @@
 /*
- * This file is part of the Sonatra package.
+ * This file is part of the Fxp package.
  *
- * (c) François Pluchino <francois.pluchino@sonatra.com>
+ * (c) François Pluchino <francois.pluchino@gmail.com>
  *
  * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
@@ -23,7 +23,7 @@
 
     if (typeof define === 'function' && define.amd) {
         // AMD. Register as an anonymous module.
-        define(['jquery', 'jquery-pjax', 'sonatra-theme-gluon-pjax', 'sonatra-jquery-table-pager'], factory);
+        define(['jquery', 'jquery-pjax', 'fxp-theme-gluon-pjax', 'fxp-jquery-table-pager'], factory);
     } else {
         // Browser globals
         factory(jQuery);
@@ -72,8 +72,8 @@
         this.$table   = $('#' + this.$element.attr('data-table-id'));
 
         this.$table
-            .on('table-pager-pre-success.st.tablepagerpjax', null, this, onPreSuccess)
-            .on('table-pager-post-success.st.tablepagerpjax', null, this, onPostSuccess)
+            .on('table-pager-pre-success.fxp.tablepagerpjax', null, this, onPreSuccess)
+            .on('table-pager-post-success.fxp.tablepagerpjax', null, this, onPostSuccess)
         ;
     },
         old;
@@ -85,8 +85,8 @@
      */
     TablePagerPjax.prototype.destroy = function () {
         this.$table
-            .off('table-pager-pre-success.st.tablepagerpjax', null, onPreSuccess)
-            .off('table-pager-post-success.st.tablepagerpjax', null, onPostSuccess)
+            .off('table-pager-pre-success.fxp.tablepagerpjax', null, onPreSuccess)
+            .off('table-pager-post-success.fxp.tablepagerpjax', null, onPostSuccess)
         ;
 
         this.$element.removeData('st.tablepagerpjax');

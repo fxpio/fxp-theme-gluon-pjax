@@ -1,7 +1,7 @@
 /*
- * This file is part of the Sonatra package.
+ * This file is part of the Fxp package.
  *
- * (c) François Pluchino <francois.pluchino@sonatra.com>
+ * (c) François Pluchino <francois.pluchino@gmail.com>
  *
  * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
@@ -15,14 +15,14 @@
  *
  * @typedef {object} define.amd
  *
- * @author François Pluchino <francois.pluchino@sonatra.com>
+ * @author François Pluchino <francois.pluchino@gmail.com>
  */
 (function (factory) {
     'use strict';
 
     if (typeof define === 'function' && define.amd) {
         // AMD. Register as an anonymous module.
-        define(['jquery', 'jquery-pjax', 'sonatra-theme-gluon-pjax', 'sonatra-jquery-sidebar', 'sonatra-theme-gluon/js/sidebar-context'], factory);
+        define(['jquery', 'jquery-pjax', 'fxp-theme-gluon-pjax', 'fxp-jquery-datetime-picker'], factory);
     } else {
         // Browser globals
         factory(jQuery);
@@ -34,9 +34,9 @@
     // ======================================
 
     $.fn.appPjax.Constructor.API_REGISTERS.push(function ($container) {
-        $('[data-sidebar="true"]', $container).each(function () {
+        $('[data-datetime-picker="true"]', $container).each(function () {
             var $this = $(this);
-            $.fn.sidebar.call($this, $this.data());
+            $.fn.datetimePicker.call($this, $this.data());
         });
     });
 
@@ -44,9 +44,9 @@
     // =======================================
 
     $.fn.appPjax.Constructor.API_DESTROYERS.push(function ($container) {
-        $('[data-sidebar="true"]', $container).each(function () {
+        $('[data-datetime-picker="true"]', $container).each(function () {
             var $this = $(this);
-            $.fn.sidebar.call($this, 'destroy');
+            $.fn.datetimePicker.call($this, 'destroy');
         });
     });
 }));

@@ -6,12 +6,12 @@ Prerequisites
 
 This library uses:
 
-- @sonatra/theme-gluon
-- all dependencies of @sonatra/theme-gluon
+- @fxp/theme-gluon
+- all dependencies of @fxp/theme-gluon
 
 Installation
 ------------
 
 ```
-npm install @sonatra/theme-gluon-pjax --save
+npm install @fxp/theme-gluon-pjax --save
 ```

@@ -1,7 +1,7 @@
 /*
- * This file is part of the Sonatra package.
+ * This file is part of the Fxp package.
  *
- * (c) François Pluchino <francois.pluchino@sonatra.com>
+ * (c) François Pluchino <francois.pluchino@gmail.com>
  *
  * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
@@ -18,7 +18,7 @@
  * @typedef {object}           define.amd
  * @typedef {object|undefined} window.pjaxMainScripts
  *
- * @author François Pluchino <francois.pluchino@sonatra.com>
+ * @author François Pluchino <francois.pluchino@gmail.com>
  */
 (function (factory) {
     'use strict';
@@ -44,7 +44,7 @@
      */
     function triggerEvent(type, self, data) {
         $.event.trigger({
-            type: 'apppjax:' + type + '.st.apppjax',
+            type: 'apppjax:' + type + '.fxp.apppjax',
             sidebar: self,
             eventData: data,
             time: new Date()
@@ -431,16 +431,16 @@
 
         this.$element.pjax(this.options.linkSelector, this.options.containerSelector, this.options.pjaxOptions);
         this.$element
-            .on('click.st.apppjax' + this.guid, '#btn-error-reload', this, onRefreshAction)
-            .on('submit.st.apppjax' + this.guid, 'form[data-pjax]', this, onSubmitAction)
-            .on('pjax:click.st.apppjax' + this.guid, null, this, onClickAction)
-            .on('pjax:popstate.st.apppjax' + this.guid, null, this, onPopStateAction)
-            .on('pjax:beforeSend.st.apppjax' + this.guid, null, this, onBeforeSendAction)
-            .on('pjax:start.st.apppjax' + this.guid, null, this, onStartAction)
-            .on('pjax:complete.st.apppjax' + this.guid, null, this, onCompleteAction)
-            .on('pjax:error.st.apppjax' + this.guid, null, this, onErrorAction)
-            .on('pjax:beforeReplace.st.apppjax' + this.guid, null, this, onBeforeReplaceAction)
-            .on('pjax:end.st.apppjax' + this.guid, null, this, onEndAction);
+            .on('click.fxp.apppjax' + this.guid, '#btn-error-reload', this, onRefreshAction)
+            .on('submit.fxp.apppjax' + this.guid, 'form[data-pjax]', this, onSubmitAction)
+            .on('pjax:click.fxp.apppjax' + this.guid, null, this, onClickAction)
+            .on('pjax:popstate.fxp.apppjax' + this.guid, null, this, onPopStateAction)
+            .on('pjax:beforeSend.fxp.apppjax' + this.guid, null, this, onBeforeSendAction)
+            .on('pjax:start.fxp.apppjax' + this.guid, null, this, onStartAction)
+            .on('pjax:complete.fxp.apppjax' + this.guid, null, this, onCompleteAction)
+            .on('pjax:error.fxp.apppjax' + this.guid, null, this, onErrorAction)
+            .on('pjax:beforeReplace.fxp.apppjax' + this.guid, null, this, onBeforeReplaceAction)
+            .on('pjax:end.fxp.apppjax' + this.guid, null, this, onEndAction);
 
         var $metaLanguage = $('head > meta[http-equiv="Content-Language"]');
 
@@ -689,16 +689,16 @@
         unregisterPlugins(this, this.$container);
 
         this.$element
-            .off('click.st.apppjax' + this.guid, '#btn-error-reload', onRefreshAction)
-            .off('submit.st.apppjax' + this.guid, 'form[data-pjax]', onSubmitAction)
-            .off('pjax:click.st.apppjax' + this.guid, onClickAction)
-            .off('pjax:popstate.st.apppjax' + this.guid, onPopStateAction)
-            .off('pjax:beforeSend.st.apppjax' + this.guid, onBeforeSendAction)
-            .off('pjax:start.st.apppjax' + this.guid, onStartAction)
-            .off('pjax:complete.st.apppjax' + this.guid, onCompleteAction)
-            .off('pjax:error.st.apppjax' + this.guid, onErrorAction)
-            .off('pjax:beforeReplace.st.apppjax' + this.guid, onBeforeReplaceAction)
-            .off('pjax:end.st.apppjax' + this.guid, onEndAction)
+            .off('click.fxp.apppjax' + this.guid, '#btn-error-reload', onRefreshAction)
+            .off('submit.fxp.apppjax' + this.guid, 'form[data-pjax]', onSubmitAction)
+            .off('pjax:click.fxp.apppjax' + this.guid, onClickAction)
+            .off('pjax:popstate.fxp.apppjax' + this.guid, onPopStateAction)
+            .off('pjax:beforeSend.fxp.apppjax' + this.guid, onBeforeSendAction)
+            .off('pjax:start.fxp.apppjax' + this.guid, onStartAction)
+            .off('pjax:complete.fxp.apppjax' + this.guid, onCompleteAction)
+            .off('pjax:error.fxp.apppjax' + this.guid, onErrorAction)
+            .off('pjax:beforeReplace.fxp.apppjax' + this.guid, onBeforeReplaceAction)
+            .off('pjax:end.fxp.apppjax' + this.guid, onEndAction)
             .removeData('st.apppjax');
 
         delete this.$element;
