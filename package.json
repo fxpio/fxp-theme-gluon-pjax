@@ -21,7 +21,7 @@
   "engines": {},
   "main": "js/app-pjax.js",
   "dependencies": {
-    "@fxp/theme-gluon": "git://github.com/fxpio/fxp-theme-gluon.git#master",
-    "@fxp/jquery-pjax": "git://github.com/fxpio/fxp-jquery-pjax.git#master"
+    "@fxp/theme-gluon": "github:fxpio/fxp-theme-gluon#master",
+    "@fxp/jquery-pjax": "github:fxpio/fxp-jquery-pjax#master"
   }
 }
