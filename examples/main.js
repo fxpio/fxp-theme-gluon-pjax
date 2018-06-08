@@ -44,4 +44,4 @@ import '../js/components/fxp-select2-responsive';
 import '../js/components/fxp-select2-scroller';
 
 // Locale
-import '../js/locale/app-pjax-fr';
+import '../js/locale/app-pjax/fr';

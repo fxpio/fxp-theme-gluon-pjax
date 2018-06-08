@@ -22,7 +22,7 @@
 
     if (typeof define === 'function' && define.amd) {
         // AMD. Register as an anonymous module.
-        define(['jquery', '../app-pjax'], factory);
+        define(['jquery', '../../app-pjax'], factory);
     } else {
         // Browser globals
         factory(jQuery);
