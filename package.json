@@ -18,10 +18,22 @@
   "bugs": {
     "url": "https://github.com/fxpio/fxp-theme-gluon-pjax/issues"
   },
+  "scripts": {
+    "dev": "encore dev",
+    "serve": "encore dev-server --port 9000",
+    "build": "encore production"
+  },
   "engines": {},
   "main": "js/app-pjax.js",
   "dependencies": {
-    "@fxp/theme-gluon": "github:fxpio/fxp-theme-gluon#master",
-    "@fxp/jquery-pjax": "github:fxpio/fxp-jquery-pjax#master"
+    "@fxp/jquery-pjax": "github:fxpio/fxp-jquery-pjax#master",
+    "@fxp/theme-gluon": "github:fxpio/fxp-theme-gluon#master"
+  },
+  "devDependencies": {
+    "@symfony/webpack-encore": "^0.20.1",
+    "copy-webpack-plugin": "^4.5.1",
+    "less": "^3.0.4",
+    "less-loader": "^4.1.0",
+    "uglifyjs-webpack-plugin": "^1.2.5"
   }
 }

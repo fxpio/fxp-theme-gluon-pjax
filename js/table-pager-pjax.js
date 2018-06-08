@@ -23,7 +23,7 @@
 
     if (typeof define === 'function' && define.amd) {
         // AMD. Register as an anonymous module.
-        define(['jquery', 'jquery-pjax', 'fxp-theme-gluon-pjax', 'fxp-jquery-table-pager'], factory);
+        define(['jquery', '@fxp/jquery-pjax', '@fxp/jquery-table-pager', './app-pjax'], factory);
     } else {
         // Browser globals
         factory(jQuery);

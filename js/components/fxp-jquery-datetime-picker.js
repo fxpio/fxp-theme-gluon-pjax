@@ -22,7 +22,7 @@
 
     if (typeof define === 'function' && define.amd) {
         // AMD. Register as an anonymous module.
-        define(['jquery', 'jquery-pjax', 'fxp-theme-gluon-pjax', 'fxp-jquery-datetime-picker'], factory);
+        define(['jquery', '@fxp/jquery-pjax', '../app-pjax', '@fxp/jquery-datetime-picker'], factory);
     } else {
         // Browser globals
         factory(jQuery);

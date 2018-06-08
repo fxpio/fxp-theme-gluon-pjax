@@ -22,7 +22,7 @@
 
     if (typeof define === 'function' && define.amd) {
         // AMD. Register as an anonymous module.
-        define(['jquery', 'jquery-pjax', 'fxp-theme-gluon-pjax', 'fxp-theme-gluon/js/sidebar-context'], factory);
+        define(['jquery', '@fxp/jquery-pjax', '../app-pjax', '@fxp/theme-gluon/js/sidebar-context'], factory);
     } else {
         // Browser globals
         factory(jQuery);
