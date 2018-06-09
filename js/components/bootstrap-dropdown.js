@@ -7,41 +7,21 @@
  * file that was distributed with this source code.
  */
 
-/*global define*/
-/*global jQuery*/
+import $ from 'jquery';
+import AppPjax from '../app-pjax';
+import 'bootstrap/js/dropdown';
 
 /**
- * @param {jQuery} $
- *
- * @typedef {object} define.amd
- *
- * @author François Pluchino <francois.pluchino@gmail.com>
+ * Add the App Pjax Component Unregister.
  */
-(function (factory) {
-    'use strict';
+AppPjax.apiUnregisters.push(function ($container) {
+    $('[data-toggle="dropdown"]', $container).each(function () {
+        let $this = $(this);
 
-    if (typeof define === 'function' && define.amd) {
-        // AMD. Register as an anonymous module.
-        define(['jquery', '@fxp/jquery-pjax', '../app-pjax', 'bootstrap/js/dropdown'], factory);
-    } else {
-        // Browser globals
-        factory(jQuery);
-    }
-}(function ($) {
-    'use strict';
+        if (!$this.parent().hasClass('open')) {
+            return;
+        }
 
-    // APP PJAX COMPONENT DESTROYER DEFINITION
-    // =======================================
-
-    $.fn.appPjax.Constructor.API_DESTROYERS.push(function ($container) {
-        $('[data-toggle="dropdown"]', $container).each(function () {
-            var $this = $(this);
-
-            if (!$this.parent().hasClass('open')) {
-                return;
-            }
-
-            $this.dropdown('toggle');
-        });
+        $this.dropdown('toggle');
     });
-}));
+});

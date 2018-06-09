@@ -7,58 +7,37 @@
  * file that was distributed with this source code.
  */
 
-/*global define*/
-/*global jQuery*/
+import $ from 'jquery';
+import AppPjax from '../app-pjax';
+import 'bootstrap/js/modal';
 
 /**
- * @param {jQuery} $
+ * Get the target of the modal toggle.
  *
- * @typedef {object} define.amd
+ * @param {jQuery} $this The toggle of modal
  *
- * @author François Pluchino <francois.pluchino@gmail.com>
+ * @return {jQuery}
+ *
+ * @private
  */
-(function (factory) {
-    'use strict';
+function getTarget($this) {
+    return $($this.attr('data-target') || (href && href.replace(/.*(?=#[^\s]+$)/, '')));// strip for ie7
+}
 
-    if (typeof define === 'function' && define.amd) {
-        // AMD. Register as an anonymous module.
-        define(['jquery', '@fxp/jquery-pjax', '../app-pjax', 'bootstrap/js/modal'], factory);
-    } else {
-        // Browser globals
-        factory(jQuery);
-    }
-}(function ($) {
-    'use strict';
-
-    /**
-     * Get the target of the modal toggle.
-     *
-     * @param {jQuery} $this The toggle of modal
-     *
-     * @return {jQuery}
-     *
-     * @private
-     */
-    function getTarget($this)
-    {
-        return $($this.attr('data-target') || (href && href.replace(/.*(?=#[^\s]+$)/, '')));// strip for ie7
-    }
-
-    // APP PJAX COMPONENT REGISTERS DEFINITION
-    // =======================================
-
-    $.fn.appPjax.Constructor.API_REGISTERS.push(function ($container) {
-        $('[data-toggle="modal"]', $container).each(function () {
-            getTarget($(this)).css('display', '');
-        });
+/**
+ * Add the App Pjax Component Register.
+ */
+AppPjax.apiRegisters.push(function ($container) {
+    $('[data-toggle="modal"]', $container).each(function () {
+        getTarget($(this)).css('display', '');
     });
+});
 
-    // APP PJAX COMPONENT DESTROYER DEFINITION
-    // =======================================
-
-    $.fn.appPjax.Constructor.API_DESTROYERS.push(function ($container) {
-        $('[data-toggle="modal"]', $container).each(function () {
-            getTarget($(this)).modal('hide');
-        });
+/**
+ * Add the App Pjax Component Unregister.
+ */
+AppPjax.apiUnregisters.push(function ($container) {
+    $('[data-toggle="modal"]', $container).each(function () {
+        getTarget($(this)).modal('hide');
     });
-}));
+});

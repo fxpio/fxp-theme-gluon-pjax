@@ -7,36 +7,16 @@
  * file that was distributed with this source code.
  */
 
-/*global define*/
-/*global jQuery*/
+import $ from 'jquery';
+import AppPjax from '../app-pjax';
+import 'bootstrap/js/carousel';
 
 /**
- * @param {jQuery} $
- *
- * @typedef {object} define.amd
- *
- * @author François Pluchino <francois.pluchino@gmail.com>
+ * Add the App Pjax Component Register.
  */
-(function (factory) {
-    'use strict';
-
-    if (typeof define === 'function' && define.amd) {
-        // AMD. Register as an anonymous module.
-        define(['jquery', '@fxp/jquery-pjax', '../app-pjax', 'bootstrap/js/carousel'], factory);
-    } else {
-        // Browser globals
-        factory(jQuery);
-    }
-}(function ($) {
-    'use strict';
-
-    // APP PJAX COMPONENT REGISTER DEFINITION
-    // ======================================
-
-    $.fn.appPjax.Constructor.API_REGISTERS.push(function ($container) {
-        $('[data-ride="carousel"]', $container).each(function () {
-            var $this = $(this);
-            $.fn.carousel.call($this, $this.data());
-        });
+AppPjax.apiRegisters.push(function ($container) {
+    $('[data-ride="carousel"]', $container).each(function () {
+        let $this = $(this);
+        $.fn.carousel.call($this, $this.data());
     });
-}));
+});

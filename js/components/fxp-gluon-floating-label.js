@@ -7,46 +7,10 @@
  * file that was distributed with this source code.
  */
 
-/*global define*/
-/*global jQuery*/
+import AppPjax from '../app-pjax';
+import '@fxp/theme-gluon/js/floating-label';
 
 /**
- * @param {jQuery} $
- *
- * @typedef {object} define.amd
- *
- * @author François Pluchino <francois.pluchino@gmail.com>
+ * Add the App Pjax Component Register and Unregister.
  */
-(function (factory) {
-    'use strict';
-
-    if (typeof define === 'function' && define.amd) {
-        // AMD. Register as an anonymous module.
-        define(['jquery', '@fxp/jquery-pjax', '../app-pjax', '@fxp/theme-gluon/js/floating-label'], factory);
-    } else {
-        // Browser globals
-        factory(jQuery);
-    }
-}(function ($) {
-    'use strict';
-
-    // APP PJAX COMPONENT REGISTER DEFINITION
-    // ======================================
-
-    $.fn.appPjax.Constructor.API_REGISTERS.push(function ($container) {
-        $('[data-floating-label]', $container).each(function () {
-            var $this = $(this);
-            $.fn.floatingLabel.call($this, $this.data());
-        });
-    });
-
-    // APP PJAX COMPONENT DESTROYER DEFINITION
-    // =======================================
-
-    $.fn.appPjax.Constructor.API_DESTROYERS.push(function ($container) {
-        $('[data-floating-label]', $container).each(function () {
-            var $this = $(this);
-            $.fn.floatingLabel.call($this, 'destroy');
-        });
-    });
-}));
+AppPjax.addDefaultRegisters('floatingLabel', '[data-floating-label]');

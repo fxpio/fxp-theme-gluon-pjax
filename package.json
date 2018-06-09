@@ -24,10 +24,12 @@
     "build": "encore production"
   },
   "engines": {},
-  "main": "js/app-pjax.js",
+  "main": "js/app-pjax/index.js",
   "dependencies": {
     "@fxp/jquery-pjax": "github:fxpio/fxp-jquery-pjax#master",
-    "@fxp/theme-gluon": "github:fxpio/fxp-theme-gluon#master"
+    "@fxp/jquery-pluginify": "github:fxpio/fxp-jquery-pluginify#master",
+    "@fxp/theme-gluon": "github:fxpio/fxp-theme-gluon#master",
+    "jquery": "^2.2.0||^3.2.0"
   },
   "devDependencies": {
     "@symfony/webpack-encore": "^0.20.1",

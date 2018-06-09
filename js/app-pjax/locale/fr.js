@@ -7,10 +7,12 @@
  * file that was distributed with this source code.
  */
 
-import AppPjax from '../app-pjax';
-import '@fxp/select2-responsive';
+import AppPjax from '../index';
 
-/**
- * Add the App Pjax Component Register and Unregister.
- */
-AppPjax.addDefaultRegisters('select2Responsive', '[data-select2-responsive="true"]');
+AppPjax.locales = {
+    'fr': {
+        reload: 'Recharger',
+        error: 'Erreur',
+        error_message: 'Impossible d\'établir la connexion au serveur'
+    }
+};

@@ -7,58 +7,38 @@
  * file that was distributed with this source code.
  */
 
-/*global define*/
-/*global jQuery*/
+import $ from 'jquery';
+import AppPjax from '../app-pjax';
+import 'bootstrap/js/scrollspy';
 
 /**
- * @param {jQuery} $
- *
- * @typedef {object} define.amd
- *
- * @author François Pluchino <francois.pluchino@gmail.com>
+ * Add the App Pjax Component Register.
  */
-(function (factory) {
-    'use strict';
-
-    if (typeof define === 'function' && define.amd) {
-        // AMD. Register as an anonymous module.
-        define(['jquery', '@fxp/jquery-pjax', '../app-pjax', 'bootstrap/js/scrollspy'], factory);
-    } else {
-        // Browser globals
-        factory(jQuery);
-    }
-}(function ($) {
-    'use strict';
-
-    // APP PJAX COMPONENT REGISTER DEFINITION
-    // ======================================
-
-    $.fn.appPjax.Constructor.API_REGISTERS.push(function ($container) {
-        $('[data-spy="scroll"]:not([id])', $container).each(function () {
-            var $this = $(this);
-            $.fn.scrollspy.call($this, $this.data());
-        });
+AppPjax.apiRegisters.push(function ($container) {
+    $('[data-spy="scroll"]:not([id])', $container).each(function () {
+        let $this = $(this);
+        $.fn.scrollspy.call($this, $this.data());
     });
+});
 
-    // APP PJAX COMPONENT DESTROYER DEFINITION
-    // =======================================
+/**
+ * Add the App Pjax Component Unregister.
+ */
+AppPjax.apiUnregisters.push(function ($container) {
+    $('[data-spy="scroll"]:not([id])', $container).each(function () {
+        let $this = $(this),
+            scrollspy = $this.data('bs.scrollspy');
 
-    $.fn.appPjax.Constructor.API_DESTROYERS.push(function ($container) {
-        $('[data-spy="scroll"]:not([id])', $container).each(function () {
-            var $this = $(this),
-                scrollspy = $this.data('bs.scrollspy');
-
-            scrollspy.$scrollElement.off('scroll.bs.scrollspy', $.proxy(scrollspy.process, scrollspy));
-        });
+        scrollspy.$scrollElement.off('scroll.bs.scrollspy', $.proxy(scrollspy.process, scrollspy));
     });
+});
 
-    // SCROLL SPY DATA-API
-    // ===================
-
-    $(window).on('load', function () {
-        $('[data-toggle="scroll"]:not([id])').each(function () {
-            var $this = $(this);
-            $.fn.scrollspy.call($this, $this.data());
-        });
+/**
+ * Data API.
+ */
+$(window).on('load', function () {
+    $('[data-toggle="scroll"]:not([id])').each(function () {
+        let $this = $(this);
+        $.fn.scrollspy.call($this, $this.data());
     });
-}));
+});

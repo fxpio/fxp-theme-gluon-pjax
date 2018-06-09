@@ -7,46 +7,10 @@
  * file that was distributed with this source code.
  */
 
-/*global define*/
-/*global jQuery*/
+import AppPjax from '../app-pjax';
+import '@fxp/jquery-sidebar';
 
 /**
- * @param {jQuery} $
- *
- * @typedef {object} define.amd
- *
- * @author François Pluchino <francois.pluchino@gmail.com>
+ * Add the App Pjax Component Register and Unregister.
  */
-(function (factory) {
-    'use strict';
-
-    if (typeof define === 'function' && define.amd) {
-        // AMD. Register as an anonymous module.
-        define(['jquery', '@fxp/jquery-pjax', '../app-pjax', '@fxp/jquery-sidebar', '@fxp/theme-gluon/js/sidebar-context'], factory);
-    } else {
-        // Browser globals
-        factory(jQuery);
-    }
-}(function ($) {
-    'use strict';
-
-    // APP PJAX COMPONENT REGISTER DEFINITION
-    // ======================================
-
-    $.fn.appPjax.Constructor.API_REGISTERS.push(function ($container) {
-        $('[data-sidebar="true"]', $container).each(function () {
-            var $this = $(this);
-            $.fn.sidebar.call($this, $this.data());
-        });
-    });
-
-    // APP PJAX COMPONENT DESTROYER DEFINITION
-    // =======================================
-
-    $.fn.appPjax.Constructor.API_DESTROYERS.push(function ($container) {
-        $('[data-sidebar="true"]', $container).each(function () {
-            var $this = $(this);
-            $.fn.sidebar.call($this, 'destroy');
-        });
-    });
-}));
+AppPjax.addDefaultRegisters('sidebar', '[data-sidebar="true"]');

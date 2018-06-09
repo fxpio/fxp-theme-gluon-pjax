@@ -7,68 +7,48 @@
  * file that was distributed with this source code.
  */
 
-/*global define*/
-/*global jQuery*/
+import $ from 'jquery';
+import AppPjax from '../app-pjax';
+import 'bootstrap/js/affix';
 
 /**
- * @param {jQuery} $
- *
- * @typedef {object} define.amd
- *
- * @author François Pluchino <francois.pluchino@gmail.com>
+ * Add the App Pjax Component Register.
  */
-(function (factory) {
-    'use strict';
+AppPjax.apiRegisters.push(function ($container) {
+    $('[data-spy="affix"]', $container).each(function () {
+        let $spy = $(this),
+            data = $spy.data();
 
-    if (typeof define === 'function' && define.amd) {
-        // AMD. Register as an anonymous module.
-        define(['jquery', '@fxp/jquery-pjax', '../app-pjax', 'bootstrap/js/affix'], factory);
-    } else {
-        // Browser globals
-        factory(jQuery);
-    }
-}(function ($) {
-    'use strict';
+        data.offset = data.offset || {};
 
-    // APP PJAX COMPONENT REGISTER DEFINITION
-    // ======================================
+        if (data.offsetBottom !== null) {
+            data.offset.bottom = data.offsetBottom;
+        }
 
-    $.fn.appPjax.Constructor.API_REGISTERS.push(function ($container) {
-        $('[data-spy="affix"]', $container).each(function () {
-            var $spy = $(this),
-                data = $spy.data();
+        if (data.offsetTop !== null) {
+            data.offset.top = data.offsetTop;
+        }
 
-            data.offset = data.offset || {};
-
-            if (data.offsetBottom !== null) {
-                data.offset.bottom = data.offsetBottom;
-            }
-
-            if (data.offsetTop !== null) {
-                data.offset.top = data.offsetTop;
-            }
-
-            $.fn.affix.call($spy, data);
-        });
+        $.fn.affix.call($spy, data);
     });
+});
 
-    // APP PJAX COMPONENT DESTROYER DEFINITION
-    // =======================================
+/**
+ * Add the App Pjax Component Unregister.
+ */
+AppPjax.apiUnregisters.push(function ($container) {
+    $('[data-spy="affix"]', $container).each(function () {
+        let $this = $(this),
+            affix = $this.data('bs.affix');
 
-    $.fn.appPjax.Constructor.API_DESTROYERS.push(function ($container) {
-        $('[data-spy="affix"]', $container).each(function () {
-            var $this = $(this),
-                affix = $this.data('bs.affix');
+        if (undefined === affix) {
+            return;
+        }
 
-            if (undefined === affix) {
-                return;
-            }
+        affix.$target
+            .off('scroll.bs.affix.data-api', $.proxy(affix.checkPosition, affix))
+            .off('click.bs.affix.data-api',  $.proxy(affix.checkPositionWithEventLoop, affix));
 
-            affix.$target
-                .off('scroll.bs.affix.data-api', $.proxy(affix.checkPosition, affix))
-                .off('click.bs.affix.data-api',  $.proxy(affix.checkPositionWithEventLoop, affix));
-
-            $this.removeData('bs.affix');
-        });
+        $this.removeData('bs.affix');
     });
-}));
+});

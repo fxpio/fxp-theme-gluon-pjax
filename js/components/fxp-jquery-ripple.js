@@ -7,53 +7,25 @@
  * file that was distributed with this source code.
  */
 
-/*global define*/
-/*global jQuery*/
+import $ from 'jquery';
+import AppPjax from '../app-pjax';
+import '@fxp/jquery-ripple';
 
 /**
- * @param {jQuery} $
- *
- * @typedef {object} define.amd
- *
- * @author François Pluchino <francois.pluchino@gmail.com>
+ * Add the App Pjax Component Register.
  */
-(function (factory) {
-    'use strict';
-
-    if (typeof define === 'function' && define.amd) {
-        // AMD. Register as an anonymous module.
-        define(['jquery', '@fxp/jquery-pjax', '../app-pjax', '@fxp/jquery-ripple'], factory);
-    } else {
-        // Browser globals
-        factory(jQuery);
-    }
-}(function ($) {
-    'use strict';
-
-    // APP PJAX COMPONENT REGISTER DEFINITION
-    // ======================================
-
-    $.fn.appPjax.Constructor.API_REGISTERS.push(function ($container) {
-        // clean old ripple actions
-        $('.ripple-action', $container).each(function () {
-            var $this = $(this);
-            $this.removeClass('ripple-action');
-            $('.ripple', $this).remove();
-        });
-
-        $('[data-ripple]', $container).each(function () {
-            var $this = $(this);
-            $.fn.ripple.call($this, $this.data());
-        });
+AppPjax.apiRegisters.push(function ($container) {
+    // clean old ripple actions
+    $('.ripple-action', $container).each(function () {
+        let $this = $(this);
+        $this.removeClass('ripple-action');
+        $('.ripple', $this).remove();
     });
 
-    // APP PJAX COMPONENT DESTROYER DEFINITION
-    // =======================================
+    AppPjax.createDefaultRegister('ripple', '[data-ripple]')($container);
+});
 
-    $.fn.appPjax.Constructor.API_DESTROYERS.push(function ($container) {
-        $('[data-ripple]', $container).each(function () {
-            var $this = $(this);
-            $.fn.ripple.call($this, 'destroy');
-        });
-    });
-}));
+/**
+ * Add the App Pjax Component Unregister.
+ */
+AppPjax.addDefaultUnregister('ripple', '[data-ripple]');
