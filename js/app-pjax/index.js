@@ -341,7 +341,6 @@ export default class AppPjax extends BaseI18nPlugin
  * Defaults options.
  */
 AppPjax.defaultOptions = {
-    locale: null,
     linkSelector: 'a:not([data-force-load])',
     containerSelector: '#pjax-container',
     pjaxOptions: {
