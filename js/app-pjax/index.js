@@ -82,12 +82,6 @@ export default class AppPjax extends BaseI18nPlugin
             .on('pjax:error.fxp.apppjax' + this.guid, null, this, onErrorAction)
             .on('pjax:beforeReplace.fxp.apppjax' + this.guid, null, this, onBeforeReplaceAction)
             .on('pjax:end.fxp.apppjax' + this.guid, null, this, onEndAction);
-
-        let $metaLanguage = $('head > meta[http-equiv="Content-Language"]');
-
-        if (this.options.locale === null && $metaLanguage.length === 1) {
-            this.options.locale = $metaLanguage.attr('content');
-        }
     }
 
     /**
