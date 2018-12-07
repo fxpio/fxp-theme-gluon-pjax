@@ -13,4 +13,4 @@ import '@fxp/select2-scroller';
 /**
  * Add the App Pjax Component Register and Unregister.
  */
-AppPjax.addDefaultRegisters('select2Scroller', '[data-select2-jquery-scroller="true"]');
+AppPjax.addDefaultRegisters('select2Scroller', '[data-select2-scroller="true"]');
