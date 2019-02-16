@@ -26,9 +26,9 @@
   "engines": {},
   "main": "js/app-pjax/index.js",
   "dependencies": {
-    "@fxp/jquery-pjax": "github:fxpio/fxp-jquery-pjax#master",
-    "@fxp/jquery-pluginify": "github:fxpio/fxp-jquery-pluginify#master",
-    "@fxp/theme-gluon": "github:fxpio/fxp-theme-gluon#master",
+    "@fxp/jquery-pjax": "github:fxpio/fxp-jquery-pjax#semver:^2.0.2",
+    "@fxp/jquery-pluginify": "github:fxpio/fxp-jquery-pluginify#semver:^1.0.0",
+    "@fxp/theme-gluon": "github:fxpio/fxp-theme-gluon#semver:^1.0.0",
     "jquery": "^2.2.0||^3.2.0"
   },
   "devDependencies": {
